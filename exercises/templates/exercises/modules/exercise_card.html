@@ -1,0 +1,904 @@
+{% load i18n %}
+
+<div class="modal-content1" id="exerciseCard">
+    <div class="modal-header py-2 d-none exercise-card-header">
+        <div class="row w-100">
+            <div class="col-12 p-1 btn-group btn-group-custom">
+                <button type="button" class="btn btn-secondary btn-sm btn-custom tab-btn selected2" id="openDescription">Описание</button>
+                <button type="button" class="btn btn-secondary btn-sm btn-custom tab-btn" id="openDrawing1">Рисунок 1</button>
+                <button type="button" class="btn btn-secondary btn-sm btn-custom tab-btn" id="openDrawing2">Рисунок 2</button>
+                <button type="button" class="btn btn-secondary btn-sm btn-custom tab-btn" id="openVideo1">Видео 1</button>
+                <button type="button" class="btn btn-secondary btn-sm btn-custom tab-btn" id="openVideo2">Видео 2</button>
+                <button type="button" class="btn btn-secondary btn-sm btn-custom tab-btn" id="openAnimation1">Анимация 1</button>
+                <button type="button" class="btn btn-secondary btn-sm btn-custom tab-btn" id="openAnimation2">Анимация 2</button>
+                <button type="button" class="btn btn-secondary btn-sm btn-custom exs-change btn-view size-max-w-x" data-dir="prev" style="--w-max-x:5%;" title="Предыдущее">
+                    <i class="fa fa-long-arrow-left" aria-hidden="true"></i>
+                </button>
+                <button type="button" class="btn btn-secondary btn-sm btn-custom exs-change btn-view size-max-w-x" data-dir="next" style="--w-max-x:5%;" title="Следующее">
+                    <i class="fa fa-long-arrow-right" aria-hidden="true"></i>
+                </button>
+                <!-- <button type="button" class="btn btn-secondary btn-sm btn-custom size-max-w-x selected" data-type="add" data-id="list" title="Режим добавления: список" style="--w-max-x:3%;">
+                    <i class="fa fa-list-alt" aria-hidden="true"></i>
+                </button>
+                <button type="button" class="btn btn-secondary btn-sm btn-custom size-max-w-x" data-type="add" data-id="text" title="Режим добавления: текст" style="--w-max-x:3%;">
+                    <i class="fa fa-text-width" aria-hidden="true"></i>
+                </button> -->
+                <!-- <button type="button" class="btn btn-secondary btn-sm btn-custom" id="saveExs" disabled="">Сохранить</button> -->
+                <!-- <button type="button" class="btn btn-danger btn-sm btn-custom" data-dismiss="modal" title="">Выйти</button> -->
+                <!-- <button type="button" class="btn btn-secondary btn-sm btn-custom size-max-w-x" id="deleteExercise" style="--w-max-x:3%;" title="Удалить">
+                    <i class="fa fa-trash-o" aria-hidden="true"></i>
+                </button> -->
+                <button type="button" class="btn btn-secondary btn-sm btn-custom size-max-w-x" id="columnsSizeInCard2" style="--w-max-x:3%;" title="Изменить размер колонок">
+                    <i class="fa fa-cog" aria-hidden="true"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+    <div class="modal-body py-0 px-0 size-h-x" style="--h-x: 85vh; overflow-y: auto;">
+        <div class="tabs-block">
+            <div class="tab-content1" id="cardBlock">
+                <div class="tab-pane fade show active" id="card_description" role="tabpanel" aria-labelledby="card_description-tab">
+                    <div class="card-description split">
+                        <div class="left-col-card" id="splitCol_exscard_0">
+                            <div class="container table-responsive pl-0">
+                                <table class="table table-sm table-bordered" style="table-layout: fixed;">
+                                    <colgroup>
+                                        <col span="1" style="width: 50%;">
+                                        <col span="1" style="width: 50%;">
+                                    </colgroup>
+                                    <tbody class="">
+                                        <tr class="bck-custom text-center font-weight-bold border-bottom-custom">
+                                            <td class="align-middle" colspan="2">
+                                                {% for elem in refs.exs_title_names %}
+                                                    {% if elem.name == "exercise" %}
+                                                        {{ elem.title }}
+                                                    {% endif %}
+                                                {% endfor %}
+                                            </td>
+                                        </tr>
+                                        <tr class="bck-custom border-y-custom">
+                                            <td colspan="2">
+                                                <select name="folder_parent" class="form-control form-control-sm exs_edit_field nfb_folders d-none" required="" autocomplete="off">
+                                                    <option value="">Главные папки</option>
+                                                    {% for folder in nfb_folders %}
+                                                        {% if folder.root %}
+                                                            <option value="{{ folder.id }}">{{ folder.short_name }}. {{ folder.name }}</option>
+                                                        {% endif %}
+                                                    {% endfor %}
+                                                </select>
+                                                <select name="folder_parent" class="form-control form-control-sm exs_edit_field team_folders" required="" autocomplete="off">
+                                                    <option value="">Главные папки</option>
+                                                    {% for folder in folders %}
+                                                        {% if folder.root %}
+                                                            <option value="{{ folder.id }}">{{ folder.short_name }}. {{ folder.name }}</option>
+                                                        {% endif %}
+                                                    {% endfor %}
+                                                </select>
+                                            </td>
+                                        </tr>
+                                        <tr class="bck-custom border-y-custom">
+                                            <td colspan="2">
+                                                <select name="folder_main" class="form-control form-control-sm exs_edit_field nfb_folders d-none" required="" autocomplete="off">
+                                                    <option value="">Папки с упражнением</option>
+                                                    {% for folder in nfb_folders %}
+                                                        {% if not folder.root %}
+                                                            <option value="{{ folder.id }}" data-parent="{{ folder.parent }}">{{ folder.short_name }}. {{ folder.name }}</option>
+                                                        {% endif %}
+                                                    {% endfor %}
+                                                </select>
+                                                <select name="folder_main" class="form-control form-control-sm exs_edit_field team_folders" required="" autocomplete="off">
+                                                    <option value="">Папки с упражнением</option>
+                                                    {% for folder in folders %}
+                                                        {% if not folder.root %}
+                                                            <option value="{{ folder.id }}" data-parent="{{ folder.parent }}">{{ folder.short_name }}. {{ folder.name }}</option>
+                                                        {% endif %}
+                                                    {% endfor %}
+                                                </select>
+                                            </td>
+                                        </tr>
+                                        <tr class="bck-custom border-y-custom">
+                                            <td colspan="2">
+                                                <select name="ref_goal" class="form-control form-control-sm exs_edit_field" autocomplete="off">
+                                                    <option value="">Ворота</option>
+                                                    {% for elem in refs.exs_goal %}
+                                                        <option value="{{ elem.id }}">{{ elem.title }}</option>
+                                                    {% endfor %}
+                                                </select>
+                                            </td>
+                                        </tr>
+                                        <tr class="bck-custom border-y-custom">
+                                            <td colspan="2">
+                                                <select name="ref_ball" class="form-control form-control-sm exs_edit_field" autocomplete="off">
+                                                    <option value="">Мяч</option>
+                                                    {% for elem in refs.exs_ball %}
+                                                        <option value="{{ elem.id }}">{{ elem.title }}</option>
+                                                    {% endfor %}
+                                                </select>
+                                            </td>
+                                        </tr>
+                                        <tr class="bck-custom border-y-custom">
+                                            <td colspan="2">
+                                                <select name="ref_team_category" class="form-control form-control-sm exs_edit_field" autocomplete="off">
+                                                    <option value="">Категория команды</option>
+                                                    {% for elem in refs.exs_team_category %}
+                                                        <option value="{{ elem.id }}">{{ elem.title }}</option>
+                                                    {% endfor %}
+                                                </select>
+                                            </td>
+                                        </tr>
+                                        <tr class="bck-custom border-y-custom">
+                                            <td colspan="2">
+                                                <select name="ref_age_category" class="form-control form-control-sm exs_edit_field" autocomplete="off">
+                                                    <option value="">Возрастная категория</option>
+                                                    {% for elem in refs.exs_age_category %}
+                                                        <option value="{{ elem.id }}">{{ elem.title }}</option>
+                                                    {% endfor %}
+                                                </select>
+                                            </td>
+                                        </tr>
+                                        <tr class="bck-custom border-y-custom">
+                                            <td colspan="2">
+                                                <select name="ref_train_part" class="form-control form-control-sm exs_edit_field" autocomplete="off">
+                                                    <option value="">Части тренировки</option>
+                                                    {% for elem in refs.exs_train_part %}
+                                                        <option value="{{ elem.id }}">{{ elem.title }}</option>
+                                                    {% endfor %}
+                                                </select>
+                                            </td>
+                                        </tr>
+                                        <tr class="bck-custom border-top-custom">
+                                            <td colspan="2">
+                                                <select name="ref_cognitive_load" class="form-control form-control-sm exs_edit_field" autocomplete="off">
+                                                    <option value="">Когнитивная нагрузка</option>
+                                                    {% for elem in refs.exs_cognitive_load %}
+                                                        <option value="{{ elem.id }}">{{ elem.title }}</option>
+                                                    {% endfor %}
+                                                </select>
+                                            </td>
+                                        </tr>
+                                        <tr class="">
+                                            <td colspan="2">&nbsp;</td>
+                                        </tr>
+                                        <!-- <tr class="wider_row bck-custom border-bottom-custom" data-id="additional_data">
+                                            <td colspan="2">
+                                                <div class="row">
+                                                    <div class="col-9 text-center">
+                                                        <span class="ml-custom-title font-weight-bold align-middle">
+                                                            {% for elem in refs.exs_title_names %}
+                                                                {% if elem.name == "additional_info" %}
+                                                                    {{ elem.title }}
+                                                                {% endif %}
+                                                            {% endfor %}
+                                                        </span>
+                                                    </div>
+                                                    <div class="col-3 text-right">
+                                                        <button class="btn btn-secondary btn-sm add-row" data-id="additional_data">
+                                                            <i class="fa fa-plus" aria-hidden="true"></i>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr class="">
+                                            <td colspan="2">&nbsp;</td>
+                                        </tr> -->
+                                        <tr class="wider_row bck-custom border-bottom-custom" data-id="keyword">
+                                            <td colspan="2">
+                                                <div class="row">
+                                                    <div class="col-9 text-center">
+                                                        <span class="ml-custom-title font-weight-bold align-middle">
+                                                            {% for elem in refs.exs_title_names %}
+                                                                {% if elem.name == "keyword" %}
+                                                                    {{ elem.title }}
+                                                                {% endif %}
+                                                            {% endfor %}
+                                                        </span>
+                                                    </div>
+                                                    <div class="col-3 text-right">
+                                                        <button class="btn btn-secondary btn-sm add-row" data-id="keyword">
+                                                            <i class="fa fa-plus" aria-hidden="true"></i>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr class="bck-custom border-y-custom" style="background-color: white;">
+                                            <td colspan="2"><div style="height:5px;">&nbsp;</div></td>
+                                        </tr>
+                                        <tr class="wider_row bck-custom border-y-custom" data-id="stress_type">
+                                            <td colspan="2">
+                                                <div class="row">
+                                                    <div class="col-9 text-center">
+                                                        <span class="ml-custom-title font-weight-bold align-middle">
+                                                            {% for elem in refs.exs_title_names %}
+                                                                {% if elem.name == "stress_type" %}
+                                                                    {{ elem.title }}
+                                                                {% endif %}
+                                                            {% endfor %}
+                                                        </span>
+                                                    </div>
+                                                    <div class="col-3 text-right">
+                                                        <button class="btn btn-secondary btn-sm add-row" data-id="stress_type">
+                                                            <i class="fa fa-plus" aria-hidden="true"></i>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="center-col-card" id="splitCol_exscard_1">
+                            <div class="container table-responsive">
+                                <table class="table table-sm table-bordered" style="table-layout: fixed;">
+                                    <colgroup>
+                                        <col span="1" style="width: 100%;">
+                                    </colgroup>
+                                    <tbody>
+                                        <tr class="bck-custom">
+                                            <td>
+                                                <input name="title" class="form-control form-control-sm exs_edit_field text-center placeholder-font-weight" type="text" value="" placeholder="Название упражнения" autocomplete="off" style="--fw:700;" required="">
+                                            </td>
+                                        </tr>
+                                        <tr class="bck-custom">
+                                            <td title="Описание" style="background-color: white;">
+                                                <div class="resizeable-block" style="resize: vertical; overflow: auto;">
+                                                    <div id="descriptionEditor2" class="ckeditor w-100" name="description_text"></div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr class="">
+                                            <td>&nbsp;</td>
+                                        </tr>
+                                        <tr class="wider_row bck-custom border-bottom-custom" data-id="purposes">
+                                            <td>
+                                                <div class="row">
+                                                    <div class="col-9 text-center">
+                                                        <span class="ml-custom-title font-weight-bold align-middle">
+                                                            {% for elem in refs.exs_title_names %}
+                                                                {% if elem.name == "goal" %}
+                                                                    {{ elem.title }}
+                                                                {% endif %}
+                                                            {% endfor %}
+                                                        </span>
+                                                    </div>
+                                                    <div class="col-3 text-right">
+                                                        <button class="btn btn-secondary btn-sm add-row" data-id="purposes">
+                                                            <i class="fa fa-plus" aria-hidden="true"></i>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr class="bck-custom border-y-custom" style="background-color: white;">
+                                            <td><div style="height:5px;">&nbsp;</div></td>
+                                        </tr>
+                                        <!-- <tr class="wider_row bck-custom border-y-custom" data-id="coaching">
+                                            <td>
+                                                <div class="row">
+                                                    <div class="col-9 text-center">
+                                                        <span class="ml-custom-title font-weight-bold align-middle">
+                                                            {% for elem in refs.exs_title_names %}
+                                                                {% if elem.name == "coaching" %}
+                                                                    {{ elem.title }}
+                                                                {% endif %}
+                                                            {% endfor %}
+                                                        </span>
+                                                    </div>
+                                                    <div class="col-3 text-right">
+                                                        <button class="btn btn-secondary btn-sm add-row" data-id="coaching">
+                                                            <i class="fa fa-plus" aria-hidden="true"></i>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr class="bck-custom border-y-custom" style="background-color: white;">
+                                            <td><div style="height:5px;">&nbsp;</div></td>
+                                        </tr> -->
+                                        <tr class="wider_row bck-custom border-y-custom" data-id="notes">
+                                            <td>
+                                                <div class="row">
+                                                    <div class="col-9 text-center">
+                                                        <span class="ml-custom-title font-weight-bold align-middle">
+                                                            {% for elem in refs.exs_title_names %}
+                                                                {% if elem.name == "notes" %}
+                                                                    {{ elem.title }}
+                                                                {% endif %}
+                                                            {% endfor %}
+                                                        </span>
+                                                    </div>
+                                                    <div class="col-3 text-right">
+                                                        <button class="btn btn-secondary btn-sm add-row" data-id="notes">
+                                                            <i class="fa fa-plus" aria-hidden="true"></i>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="right-col-card ml-4" id="splitCol_exscard_2">
+                            <div class="row w-100">
+                                <div class="col-12 btn-group">
+                                    <button type="button" class="btn btn-secondary btn-sm btn-custom size-max-w-x" id="editExs" data-active="0" style="--w-max-x:20%;" title="Редактировать">
+                                        <i class="fa fa-pencil" aria-hidden="true"></i>
+                                    </button>
+                                    <button type="button" class="btn btn-secondary btn-sm btn-custom exs-change btn-view size-max-w-x" data-dir="prev" style="--w-max-x:20%;" title="Предыдущее">
+                                        <i class="fa fa-long-arrow-left" aria-hidden="true"></i>
+                                    </button>
+                                    <button type="button" class="btn btn-secondary btn-sm btn-custom exs-change btn-view size-max-w-x" data-dir="next" style="--w-max-x:20%;" title="Следующее">
+                                        <i class="fa fa-long-arrow-right" aria-hidden="true"></i>
+                                    </button>
+                                    <button type="button" class="btn btn-secondary btn-sm btn-custom btn-edit size-max-w-x selected" data-type="add" data-id="list" title="Режим добавления: список" style="--w-max-x:20%;">
+                                        <i class="fa fa-list-alt" aria-hidden="true"></i>
+                                    </button>
+                                    <button type="button" class="btn btn-secondary btn-sm btn-custom btn-edit size-max-w-x" data-type="add" data-id="text" title="Режим добавления: текст" style="--w-max-x:20%;">
+                                        <i class="fa fa-text-width" aria-hidden="true"></i>
+                                    </button>
+                                    <button type="button" class="btn btn-secondary btn-sm btn-custom btn-view size-max-w-x" id="columnsSizeToggle" data-active="0" style="--w-max-x:20%;" title="Изменить ширину колонок">
+                                        <i class="fa fa-cog" aria-hidden="true"></i>
+                                    </button>
+                                    <button type="button" class="btn btn-secondary btn-sm btn-custom btn-view size-max-w-x" data-dismiss="modal" style="--w-max-x:20%;" title="Выйти">
+                                        <i class="fa fa-times text-danger" aria-hidden="true"></i>
+                                    </button>
+                                    <button type="button" class="btn btn-secondary btn-sm btn-custom btn-edit size-max-w-x" id="deleteExercise" style="--w-max-x:20%;" title="Удалить">
+                                        <i class="fa fa-trash-o text-danger" aria-hidden="true"></i>
+                                    </button>
+                                    <button type="button" class="btn btn-secondary btn-sm btn-custom btn-edit size-max-w-x" id="saveExs" disabled="" style="--w-max-x:20%;" title="Сохранить">
+                                        <i class="fa fa-floppy-o" aria-hidden="true"></i>
+                                    </button>
+                                </div>
+                                {% if user.is_superuser %}
+                                <div class="col-12 d-none">
+                                    <div class="delete-exs-radio">
+                                        <div class="form-check">
+                                            <label class="form-check-label">
+                                                <input type="radio" class="form-check-input" name="delete_exs_type" value="0" checked>
+                                                Удалить только упражнение
+                                            </label>
+                                        </div>
+                                        <div class="form-check">
+                                            <label class="form-check-label">
+                                                <input type="radio" class="form-check-input" name="delete_exs_type" value="1">
+                                                Удалить только видео
+                                            </label>
+                                        </div>
+                                        <div class="form-check disabled">
+                                            <label class="form-check-label">
+                                                <input type="radio" class="form-check-input" name="delete_exs_type" value="2">
+                                                Удалить упражнение и видео
+                                            </label>
+                                        </div> 
+                                    </div>
+                                </div>
+                                {% endif %}
+                                <div class="col-12 mt-2">
+                                    <div id="carouselSchema" class="carousel slide" data-ride="carousel" data-interval="false">
+                                        <ol class="carousel-indicators">
+                                            <li data-target="#carouselSchema" data-slide-to="0" class="active"></li>
+                                            <li data-target="#carouselSchema" data-slide-to="1"></li>
+                                        </ol>
+                                        <div class="carousel-inner">
+                                            <div class="carousel-item active">
+                                                <svg id="block" class="d-block bg-success mx-auto" viewBox="0 0 600 400" height="100%" width="100%" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+                                                    <defs>
+                                                        <marker id="arrow" markerWidth="15" markerHeight="12" refX="1" refY="6" orient="auto" markerUnits="userSpaceOnUse" fill="#000000"><polyline points="1 1, 16 5.5, 1 12"></polyline></marker>
+                                                        <marker id="ffffffarrow" markerWidth="15" markerHeight="12" refX="1" refY="6" orient="auto" markerUnits="userSpaceOnUse" fill="#ffffff"><polyline points="1 1, 16 5.5, 1 12"></polyline></marker>
+                                                        <marker id="ffff00arrow" markerWidth="15" markerHeight="12" refX="1" refY="6" orient="auto" markerUnits="userSpaceOnUse" fill="#ffff00"><polyline points="1 1, 16 5.5, 1 12"></polyline></marker>
+                                                        <marker id="ff0000arrow" markerWidth="15" markerHeight="12" refX="1" refY="6" orient="auto" markerUnits="userSpaceOnUse" fill="#ff0000"><polyline points="1 1, 16 5.5, 1 12"></polyline></marker>
+                                                        <marker id="000000arrow" markerWidth="15" markerHeight="12" refX="1" refY="6" orient="auto" markerUnits="userSpaceOnUse" fill="#000000"><polyline points="1 1, 16 5.5, 1 12"></polyline></marker>
+                                                        <filter id="f3" x="0" y="0" width="200%" height="200%"><feOffset result="offOut" in="SourceAlpha" dx="5" dy="5"></feOffset><feGaussianBlur result="blurOut" in="offOut" stdDeviation="3"></feGaussianBlur><feBlend in="SourceGraphic" in2="blurOut" mode="normal"></feBlend></filter>
+                                                    </defs>
+                                                    <image id="plane" x="0" y="0" data-width="600" data-height="400" width="100%" height="100%" href="/static/exercises/img/field.svg"></image>
+                                                    <g id="selects"></g>
+                                                    <g id="figures"></g>
+                                                    <g id="lines"></g>
+                                                    <g id="objects"></g>
+                                                    <g id="dots"></g>
+                                                    <line id="xLine" x1="-1" y1="0" x2="-1" y2="1600" stroke="red" stroke-dasharray="10" stroke-width="1"></line>
+                                                    <line id="yLine" x1="0" y1="-1" x2="2400" y2="-1" stroke="red" stroke-dasharray="10" stroke-width="1"></line>
+                                                    <line id="xLine2" x1="-2400" y1="0" x2="-2400" y2="1600" stroke="red" stroke-dasharray="10" stroke-width="1"></line>
+                                                    <line id="yLine2" x1="0" y1="-1600" x2="2400" y2="-1600" stroke="red" stroke-dasharray="10" stroke-width="1"></line>
+                                                </svg>
+                                            </div>
+                                            <div class="carousel-item">
+                                                <svg id="block" class="d-block bg-success mx-auto" viewBox="0 0 600 400" height="100%" width="100%" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+                                                    <defs>
+                                                        <marker id="arrow" markerWidth="15" markerHeight="12" refX="1" refY="6" orient="auto" markerUnits="userSpaceOnUse" fill="#000000"><polyline points="1 1, 16 5.5, 1 12"></polyline></marker>
+                                                        <marker id="ffffffarrow" markerWidth="15" markerHeight="12" refX="1" refY="6" orient="auto" markerUnits="userSpaceOnUse" fill="#ffffff"><polyline points="1 1, 16 5.5, 1 12"></polyline></marker>
+                                                        <marker id="ffff00arrow" markerWidth="15" markerHeight="12" refX="1" refY="6" orient="auto" markerUnits="userSpaceOnUse" fill="#ffff00"><polyline points="1 1, 16 5.5, 1 12"></polyline></marker>
+                                                        <marker id="ff0000arrow" markerWidth="15" markerHeight="12" refX="1" refY="6" orient="auto" markerUnits="userSpaceOnUse" fill="#ff0000"><polyline points="1 1, 16 5.5, 1 12"></polyline></marker>
+                                                        <marker id="000000arrow" markerWidth="15" markerHeight="12" refX="1" refY="6" orient="auto" markerUnits="userSpaceOnUse" fill="#000000"><polyline points="1 1, 16 5.5, 1 12"></polyline></marker>
+                                                        <filter id="f3" x="0" y="0" width="200%" height="200%"><feOffset result="offOut" in="SourceAlpha" dx="5" dy="5"></feOffset><feGaussianBlur result="blurOut" in="offOut" stdDeviation="3"></feGaussianBlur><feBlend in="SourceGraphic" in2="blurOut" mode="normal"></feBlend></filter>
+                                                    </defs>
+                                                    <image id="plane" x="0" y="0" data-width="600" data-height="400" width="100%" height="100%" href="/static/exercises/img/field.svg"></image>
+                                                    <g id="selects"></g>
+                                                    <g id="figures"></g>
+                                                    <g id="lines"></g>
+                                                    <g id="objects"></g>
+                                                    <g id="dots"></g>
+                                                    <line id="xLine" x1="-1" y1="0" x2="-1" y2="1600" stroke="red" stroke-dasharray="10" stroke-width="1"></line>
+                                                    <line id="yLine" x1="0" y1="-1" x2="2400" y2="-1" stroke="red" stroke-dasharray="10" stroke-width="1"></line>
+                                                    <line id="xLine2" x1="-2400" y1="0" x2="-2400" y2="1600" stroke="red" stroke-dasharray="10" stroke-width="1"></line>
+                                                    <line id="yLine2" x1="0" y1="-1600" x2="2400" y2="-1600" stroke="red" stroke-dasharray="10" stroke-width="1"></line>
+                                                </svg>
+                                            </div>
+                                        </div>
+                                        <a class="carousel-control-prev ml-2" href="#carouselSchema" role="button" data-slide="prev">
+                                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                            <span class="sr-only">Previous</span>
+                                        </a>
+                                        <a class="carousel-control-next" href="#carouselSchema" role="button" data-slide="next">
+                                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                            <span class="sr-only">Next</span>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div id="carouselVideo" class="carousel slide mt-2" data-ride="carousel" data-interval="false">
+                                        <ol class="carousel-indicators">
+                                            <li data-target="#carouselVideo" data-slide-to="0" class="active"></li>
+                                            <li data-target="#carouselVideo" data-slide-to="1"></li>
+                                        </ol>
+                                        <div class="carousel-inner">
+                                            <div class="carousel-item active">
+                                                <video id="video-player-card-1" class="video-js resize-block not-active">
+                                                </video>
+                                            </div>
+                                            <div class="carousel-item">
+                                                <video id="video-player-card-2" class="video-js resize-block not-active">
+                                                </video>
+                                            </div>
+                                        </div>
+                                        <a class="carousel-control-prev ml-2" href="#carouselVideo" role="button" data-slide="prev">
+                                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                            <span class="sr-only">Previous</span>
+                                        </a>
+                                        <a class="carousel-control-next" href="#carouselVideo" role="button" data-slide="next">
+                                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                            <span class="sr-only">Next</span>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div id="carouselAnim" class="carousel slide mt-2" data-ride="carousel" data-interval="false">
+                                        <ol class="carousel-indicators">
+                                            <li data-target="#carouselAnim" data-slide-to="0" class="active"></li>
+                                            <li data-target="#carouselAnim" data-slide-to="1"></li>
+                                        </ol>
+                                        <div class="carousel-inner">
+                                            <div class="carousel-item active">
+                                                <video id="video-player-card-3" class="video-js resize-block not-active">
+                                                </video>
+                                            </div>
+                                            <div class="carousel-item">
+                                                <video id="video-player-card-4" class="video-js resize-block not-active">
+                                                </video>
+                                            </div>
+                                        </div>
+                                        <a class="carousel-control-prev ml-2" href="#carouselAnim" role="button" data-slide="prev">
+                                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                            <span class="sr-only">Previous</span>
+                                        </a>
+                                        <a class="carousel-control-next" href="#carouselAnim" role="button" data-slide="next">
+                                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                            <span class="sr-only">Next</span>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane fade d-none" id="card_drawing1" role="tabpanel" aria-labelledby="card_drawing-tab">
+                    <div class="row mt-1">
+                        <div class="col-12 d-flex justify-content-center">
+                            <div class="card m-0" style="width: 50vw;">
+                                <svg id="block" class="d-block bg-success mx-auto" viewBox="0 0 600 400" height="100%" width="100%" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+                                    <defs>
+                                        <marker id="arrow" markerWidth="15" markerHeight="12" refX="1" refY="6" orient="auto" markerUnits="userSpaceOnUse" fill="#000000"><polyline points="1 1, 16 5.5, 1 12"></polyline></marker>
+                                        <marker id="ffffffarrow" markerWidth="15" markerHeight="12" refX="1" refY="6" orient="auto" markerUnits="userSpaceOnUse" fill="#ffffff"><polyline points="1 1, 16 5.5, 1 12"></polyline></marker>
+                                        <marker id="ffff00arrow" markerWidth="15" markerHeight="12" refX="1" refY="6" orient="auto" markerUnits="userSpaceOnUse" fill="#ffff00"><polyline points="1 1, 16 5.5, 1 12"></polyline></marker>
+                                        <marker id="ff0000arrow" markerWidth="15" markerHeight="12" refX="1" refY="6" orient="auto" markerUnits="userSpaceOnUse" fill="#ff0000"><polyline points="1 1, 16 5.5, 1 12"></polyline></marker>
+                                        <marker id="000000arrow" markerWidth="15" markerHeight="12" refX="1" refY="6" orient="auto" markerUnits="userSpaceOnUse" fill="#000000"><polyline points="1 1, 16 5.5, 1 12"></polyline></marker>
+                                        <filter id="f3" x="0" y="0" width="200%" height="200%"><feOffset result="offOut" in="SourceAlpha" dx="5" dy="5"></feOffset><feGaussianBlur result="blurOut" in="offOut" stdDeviation="3"></feGaussianBlur><feBlend in="SourceGraphic" in2="blurOut" mode="normal"></feBlend></filter>
+                                    </defs>
+                                    <image id="plane" x="0" y="0" data-width="600" data-height="400" width="100%" height="100%" href="/static/exercises/img/field.svg"></image>
+                                    <g id="selects"></g>
+                                    <g id="figures"></g>
+                                    <g id="lines"></g>
+                                    <g id="objects"></g>
+                                    <g id="dots"></g>
+                                    <line id="xLine" x1="-1" y1="0" x2="-1" y2="1600" stroke="red" stroke-dasharray="10" stroke-width="1"></line>
+                                    <line id="yLine" x1="0" y1="-1" x2="2400" y2="-1" stroke="red" stroke-dasharray="10" stroke-width="1"></line>
+                                    <line id="xLine2" x1="-2400" y1="0" x2="-2400" y2="1600" stroke="red" stroke-dasharray="10" stroke-width="1"></line>
+                                    <line id="yLine2" x1="0" y1="-1600" x2="2400" y2="-1600" stroke="red" stroke-dasharray="10" stroke-width="1"></line>
+                                </svg>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <p class="text-center">Рисунок 1</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane fade d-none" id="card_drawing2" role="tabpanel" aria-labelledby="card_drawing-tab">
+                    <div class="row mt-1">
+                        <div class="col-12 d-flex justify-content-center">
+                            <div class="card m-0" style="width: 50vw;">
+                                <svg id="block" class="d-block bg-success mx-auto" viewBox="0 0 600 400" height="100%" width="100%" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+                                    <defs>
+                                        <marker id="arrow" markerWidth="15" markerHeight="12" refX="1" refY="6" orient="auto" markerUnits="userSpaceOnUse" fill="#000000"><polyline points="1 1, 16 5.5, 1 12"></polyline></marker>
+                                        <marker id="ffffffarrow" markerWidth="15" markerHeight="12" refX="1" refY="6" orient="auto" markerUnits="userSpaceOnUse" fill="#ffffff"><polyline points="1 1, 16 5.5, 1 12"></polyline></marker>
+                                        <marker id="ffff00arrow" markerWidth="15" markerHeight="12" refX="1" refY="6" orient="auto" markerUnits="userSpaceOnUse" fill="#ffff00"><polyline points="1 1, 16 5.5, 1 12"></polyline></marker>
+                                        <marker id="ff0000arrow" markerWidth="15" markerHeight="12" refX="1" refY="6" orient="auto" markerUnits="userSpaceOnUse" fill="#ff0000"><polyline points="1 1, 16 5.5, 1 12"></polyline></marker>
+                                        <marker id="000000arrow" markerWidth="15" markerHeight="12" refX="1" refY="6" orient="auto" markerUnits="userSpaceOnUse" fill="#000000"><polyline points="1 1, 16 5.5, 1 12"></polyline></marker>
+                                        <filter id="f3" x="0" y="0" width="200%" height="200%"><feOffset result="offOut" in="SourceAlpha" dx="5" dy="5"></feOffset><feGaussianBlur result="blurOut" in="offOut" stdDeviation="3"></feGaussianBlur><feBlend in="SourceGraphic" in2="blurOut" mode="normal"></feBlend></filter>
+                                    </defs>
+                                    <image id="plane" x="0" y="0" data-width="600" data-height="400" width="100%" height="100%" href="/static/exercises/img/field.svg"></image>
+                                    <g id="selects"></g>
+                                    <g id="figures"></g>
+                                    <g id="lines"></g>
+                                    <g id="objects"></g>
+                                    <g id="dots"></g>
+                                    <line id="xLine" x1="-1" y1="0" x2="-1" y2="1600" stroke="red" stroke-dasharray="10" stroke-width="1"></line>
+                                    <line id="yLine" x1="0" y1="-1" x2="2400" y2="-1" stroke="red" stroke-dasharray="10" stroke-width="1"></line>
+                                    <line id="xLine2" x1="-2400" y1="0" x2="-2400" y2="1600" stroke="red" stroke-dasharray="10" stroke-width="1"></line>
+                                    <line id="yLine2" x1="0" y1="-1600" x2="2400" y2="-1600" stroke="red" stroke-dasharray="10" stroke-width="1"></line>
+                                </svg>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <p class="text-center">Рисунок 2</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane fade d-none" id="card_video1" role="tabpanel" aria-labelledby="card_drawing-tab">
+                    <input class="video-value" type="hidden" name="video1" value="">
+                    <div class="row mt-1 d-none">
+                        <div class="col-12 d-flex justify-content-center">
+                            <div class="card m-0" style="width: 50vw;">
+                                <img src="/static/exercises/img/video_player_temp.jpg" class="img-fluid w-100" alt="[ VIDEO ]">
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <p class="text-center">Видео 1</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane fade d-none" id="card_video2" role="tabpanel" aria-labelledby="card_drawing-tab">
+                    <input class="video-value" type="hidden" name="video2" value="">
+                    <div class="row mt-1 d-none">
+                        <div class="col-12 d-flex justify-content-center">
+                            <div class="card m-0" style="width: 50vw;">
+                                <img src="/static/exercises/img/video_player_temp.jpg" class="img-fluid w-100" alt="[ VIDEO ]">
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <p class="text-center">Видео 2</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane fade d-none" id="card_animation1" role="tabpanel" aria-labelledby="card_drawing-tab">
+                    <input class="video-value" type="hidden" name="animation1" value="">
+                    <div class="row mt-1 d-none">
+                        <div class="col-12 d-flex justify-content-center">
+                            <div class="card m-0" style="width: 50vw;">
+                                <img src="/static/exercises/img/video_player_temp.jpg" class="img-fluid w-100" alt="[ VIDEO ]">
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <p class="text-center">Анимация 1</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane fade d-none" id="card_animation2" role="tabpanel" aria-labelledby="card_drawing-tab">
+                    <input class="video-value" type="hidden" name="animation2" value="">
+                    <div class="row mt-1 d-none">
+                        <div class="col-12 d-flex justify-content-center">
+                            <div class="card m-0" style="width: 50vw;">
+                                <img src="/static/exercises/img/video_player_temp.jpg" class="img-fluid w-100" alt="[ VIDEO ]">
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <p class="text-center">Анимация 1</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="scheme-editor d-none">
+                    <div class="row">
+                        <div class="col-12 d-flex justify-content-center">
+                            <button type="button" class="btn btn-sm btn-success d-none" id="saveScheme"></button>
+                            <button type="button" class="btn btn-sm btn-success d-none" id="copyScheme"></button>
+                            <iframe src="/schemeDrawer" style="width:80vw; height: 75vh;"></iframe> 
+                        </div>
+                    </div>
+                </div>
+                <div class="video-editor d-none">
+                    <div class="row">
+                        <div class="col-12 video-filter-container mb-2">
+                            <div class="row">
+                                <div class="col-md-1 col-lg-1">
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <button id="video-filters-clear" class="btn btn-secondary btn-block font-weight-bold">
+                                                <i class="fa fa-reply" aria-hidden="true"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3 col-lg-3 px-1 form-select-sm">
+                                    <select class="select form-control form-control-sm video-source" data-theme="bootstrap4">
+                                        <option value="">{% trans 'All' %}</option>
+                                        {% for source in video_params.sources %}
+                                            <option value="{{ source.name }}" data-count="{{ source.videos }}">{{ source.name }}</option>
+                                        {% empty %}
+                                            <option value="">{% trans 'No sources' %}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                <div class="col-md-3 col-lg-3 px-1 form-select-sm">
+                                    <select class="select form-control form-control-sm exercise-folder" data-theme="bootstrap4">
+                                        <option value="">{% trans 'All' %}</option>
+                                        {% for folder in video_params.folders %}
+                                            <option value="{{ folder.short_name }}">{{ folder.name }}</option>
+                                        {% empty %}
+                                            <option value="">{% trans 'No sources' %}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                <div class="col-md-2 col-lg-2 px-1 form-select-sm">
+                                    <select class="select form-control form-control-sm video-tags-filter" multiple data-theme="bootstrap4">
+                                        {% for tag in video_params.tags %}
+                                            <option value="{{ tag.name }}">{{ tag.name }}</option>
+                                        {% empty %}
+                                            <option value="">{% trans 'No tags' %}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                <div class="col-md-2 col-lg-2 px-1 form-select-sm">
+                                    <input type="search" class="form-control video-search" placeholder="Поиск" aria-controls="video">
+                                </div>
+                                <div class="col-md-1 col-lg-1">
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <button id="video-card-modal-open" class="btn btn-secondary btn-block font-weight-bold" title="Карточка видео">
+                                                <i class="fa fa-file-video-o" aria-hidden="true"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-8">
+                            <div class="row">
+                                <div class="col-12 video-list-container">
+                                    {% include 'video/modules/video_list.html' %}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="card mb-0 mt-2 w-100">
+                                        <video id="video-player-card-edit" class="video-js resize-block not-active">
+                                        </video>
+                                    </div>
+                                </div>
+                                <div class="col-12 mt-2 video-info text-center">
+
+                                </div>
+                                <div class="col-12 mt-2">
+                                    <button class="btn btn-primary btn-sm video-toggle" data-state="0">Прикрепить / Открепить</button>
+                                    <button class="btn btn-info btn-sm video-link">Карточка</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="gen-content d-none">
+        <table>
+            <tbody>
+                <tr class="bck-custom border-y-custom" data-id="additional_data" data-type="text">
+                    <td colspan="2">
+                        <div class="row">
+                            <div class="col pr-0">
+                                <select name="additional_data_select[]" class="form-control form-control-sm diff-frmt" autocomplete="off">
+                                    <option value="">---</option>
+                                    {% for elem in refs.exs_additional_data %}
+                                        <option value="{{ elem.id }}">{{ elem.title }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="col pl-0">
+                                <input name="additional_data[]" class="form-control form-control-sm diff-frmt text-center" type="text" value="" placeholder="" autocomplete="off">
+                            </div>
+                            <div class="col-2 text-right">
+                                <button class="btn btn-secondary btn-sm remove-row">
+                                    <i class="fa fa-minus" aria-hidden="true"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                <tr class="bck-custom border-y-custom" data-id="keyword" data-type="list">
+                    <td colspan="2">
+                        <div class="row">
+                            <div class="col">
+                                <select name="keyword[]" class="form-control form-control-sm diff-frmt" autocomplete="off">
+                                    <option value="">---</option>
+                                    {% for elem in refs.exs_keyword %}
+                                        <option value="{{ elem.id }}">{{ elem.title }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="col-2 text-right">
+                                <button class="btn btn-secondary btn-sm remove-row">
+                                    <i class="fa fa-minus" aria-hidden="true"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                <tr class="bck-custom border-y-custom" data-id="keyword" data-type="text">
+                    <td colspan="2">
+                        <div class="row">
+                            <div class="col">
+                                <input name="keyword[]" class="form-control form-control-sm diff-frmt" type="text" value="" placeholder="" autocomplete="off">
+                            </div>
+                            <div class="col-2 text-right">
+                                <button class="btn btn-secondary btn-sm remove-row">
+                                    <i class="fa fa-minus" aria-hidden="true"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                <tr class="bck-custom border-y-custom" data-id="stress_type" data-type="list">
+                    <td colspan="2">
+                        <div class="row">
+                            <div class="col">
+                                <select name="stress_type[]" class="form-control form-control-sm diff-frmt" autocomplete="off">
+                                    <option value="">---</option>
+                                    {% for elem in refs.exs_stress_type %}
+                                        <option value="{{ elem.id }}">{{ elem.title }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="col-2 text-right">
+                                <button class="btn btn-secondary btn-sm remove-row">
+                                    <i class="fa fa-minus" aria-hidden="true"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                <tr class="bck-custom border-y-custom" data-id="stress_type" data-type="text">
+                    <td colspan="2">
+                        <div class="row">
+                            <div class="col">
+                                <input name="stress_type[]" class="form-control form-control-sm diff-frmt" type="text" value="" placeholder="" autocomplete="off">
+                            </div>
+                            <div class="col-2 text-right">
+                                <button class="btn btn-secondary btn-sm remove-row">
+                                    <i class="fa fa-minus" aria-hidden="true"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                <tr class="bck-custom border-y-custom" data-id="purposes" data-type="list">
+                    <td>
+                        <div class="row">
+                            <div class="col">
+                                <select name="purposes[]" class="form-control form-control-sm diff-frmt" autocomplete="off">
+                                    <option value="">---</option>
+                                    {% for elem in refs.exs_purpose %}
+                                        <option value="{{ elem.id }}">{{ elem.title }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="col-2 text-right">
+                                <button class="btn btn-secondary btn-sm remove-row">
+                                    <i class="fa fa-minus" aria-hidden="true"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                <tr class="bck-custom border-y-custom" data-id="purposes" data-type="text">
+                    <td>
+                        <div class="row">
+                            <div class="col">
+                                <input name="purposes[]" class="form-control form-control-sm diff-frmt" type="text" value="" placeholder="" autocomplete="off">
+                            </div>
+                            <div class="col-2 text-right">
+                                <button class="btn btn-secondary btn-sm remove-row">
+                                    <i class="fa fa-minus" aria-hidden="true"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                <tr class="bck-custom border-y-custom" data-id="coaching" data-type="list">
+                    <td>
+                        <div class="row">
+                            <div class="col">
+                                <select name="coaching[]" class="form-control form-control-sm diff-frmt" autocomplete="off">
+                                    <option value="">---</option>
+                                    {% for elem in refs.exs_coaching %}
+                                        <option value="{{ elem.id }}">{{ elem.title }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="col-2 text-right">
+                                <button class="btn btn-secondary btn-sm remove-row">
+                                    <i class="fa fa-minus" aria-hidden="true"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                <tr class="bck-custom border-y-custom" data-id="coaching" data-type="text">
+                    <td>
+                        <div class="row">
+                            <div class="col">
+                                <textarea name="coaching[]" class="form-control form-control-sm1 diff-frmt" onkeyup="autoGrow(this);" onchange="autoGrow(this);" style="height: 28px;"></textarea>
+                                <!-- <input name="coaching[]" class="form-control form-control-sm diff-frmt" type="text" value="" placeholder="" autocomplete="off"> -->
+                            </div>
+                            <div class="col-2 text-right">
+                                <button class="btn btn-secondary btn-sm remove-row">
+                                    <i class="fa fa-minus" aria-hidden="true"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                <tr class="bck-custom border-y-custom" data-id="notes" data-type="list">
+                    <td>
+                        <div class="row">
+                            <div class="col">
+                                <select name="notes[]" class="form-control form-control-sm diff-frmt" autocomplete="off">
+                                    <option value="">---</option>
+                                    {% for elem in refs.exs_coaching %}
+                                        <option value="{{ elem.id }}">{{ elem.title }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="col-2 text-right">
+                                <button class="btn btn-secondary btn-sm remove-row">
+                                    <i class="fa fa-minus" aria-hidden="true"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                <tr class="bck-custom border-y-custom" data-id="notes" data-type="text">
+                    <td>
+                        <div class="row">
+                            <div class="col">
+                                <textarea name="notes[]" class="form-control form-control-sm1 diff-frmt" onkeyup="autoGrow(this);" onchange="autoGrow(this);" style="height: 28px;"></textarea>
+                                <!-- <input name="notes[]" class="form-control form-control-sm diff-frmt" type="text" value="" placeholder="" autocomplete="off"> -->
+                            </div>
+                            <div class="col-2 text-right">
+                                <button class="btn btn-secondary btn-sm remove-row">
+                                    <i class="fa fa-minus" aria-hidden="true"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    {% include 'video/video_card.html' %}
+
+</div>
+

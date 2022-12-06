@@ -1,0 +1,114 @@
+<div class="modal fade" id="matchEditModal" tabindex="-1" role="dialog" aria-labelledby="matchEditModalLbl" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">
+                    <span class="add-title">Добавление матча</span>
+                    <span class="edit-title d-none">Изменение матча</span>
+                </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+            <div class="modal-body" data-id="">
+                <div class="row">
+                    <div class="col-6 bg-light pt-1">Дата</div>
+                    <div class="col-6 mb-0">
+                        <div class="row">
+                            <div class="col-6 mb-0 pl-0 pr-0">
+                                <input class="form-control form-control-sm" name="date" type="date" value="" autocomplete="off" required="">
+                            </div>
+                            <div class="col-6 mb-0 pl-0">
+                                <input class="form-control form-control-sm" name="time" type="time" value="" autocomplete="off" required="">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6 bg-light pt-1">Длительность (в минутах)</div>
+                    <div class="col-6 mb-0 pl-0">
+                        <input class="form-control form-control-sm" name="duration" type="number" min="0" value="" autocomplete="off" required="">
+                    </div>
+                    <div class="col-6 bg-light pt-1">Турнир</div>
+                    <div class="col-6 mb-0 pl-0">
+                        <input class="form-control form-control-sm" name="tournament" type="text" placeholder="Турнир" value="" autocomplete="off">
+                    </div>
+                    <div class="col-6 bg-light pt-1">Место</div>
+                    <div class="col-6 mb-0 pl-0">
+                        <input class="form-control form-control-sm" name="place" type="text" placeholder="Место" value="" autocomplete="off">
+                    </div>
+                    <div class="col-6 bg-light pt-1">Тип матча</div>
+                    <div class="col-6 mb-0 pl-0">
+                        <select class="form-control form-control-sm" name="m_type">
+                            <option value="0">Неофициальный</option>   
+                            <option value="1">Официальный</option>   
+                        </select>
+                    </div>
+                    <div class="col-6 bg-light pt-1">Формат матча</div>
+                    <div class="col-6 mb-0 pl-0">
+                        <input class="form-control form-control-sm" name="m_format" type="text" placeholder="Формат" value="" autocomplete="off">
+                    </div>
+                    <div class="col-6 bg-light pt-1">Команда 1</div>
+                    <div class="form-group col-6 mb-0 pl-0">
+                        <input class="form-control form-control-sm" name="team_name" type="text" value="" readonly="">
+                    </div>
+                    <div class="col-6 bg-light pt-1">Команда 2</div>
+                    <div class="form-group col-6 mb-0">
+                        <div class="row">
+                            <div class="col-8 mb-0 pl-0 pr-0">
+                                <input class="form-control form-control-sm" name="opponent_name" type="text" value="" autocomplete="off" required="">
+                            </div>
+                            <div class="col-4 mb-0 pl-0">
+                                <select class="form-control form-control-sm" name="opponent_team">
+                                    <option value="">---</option>
+                                    {% for team in teams_list %}
+                                        <option value="{{ team.id }}">{{ team.name }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6 bg-light pt-1">Счет</div>
+                    <div class="col-6 mb-0 pl-0">
+                        <div class="row mb-0">
+                            <div class="col-6 pr-0">
+                                <div class="row">
+                                    <div class="col-5 pr-0">
+                                        <input class="form-control form-control-sm float-left" name="goals" type="number" value="0">
+                                    </div>
+                                    <div class="col-2 px-0 text-center">
+                                        <span class="float-left pt-1 px-3">:</span>
+                                    </div>
+                                    <div class="col-5 pl-0">
+                                        <input class="form-control form-control-sm float-left" name="o_goals" type="number" value="0">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-6 pr-0">
+                                <div class="row">
+                                    <div class="col-1 px-0">
+                                        <span class="float-right pt-1 pr-0 pl-1">(</span>
+                                    </div>
+                                    <div class="col-4 px-0">
+                                        <input class="form-control form-control-sm float-left" name="penalty" type="number" value="0">
+                                    </div>
+                                    <div class="col-1 px-0">
+                                        <span class="float-left pt-1 px-1">:</span>
+                                    </div>
+                                    <div class="col-4 px-0">
+                                        <input class="form-control form-control-sm float-left" name="o_penalty" type="number" value="0">
+                                    </div>
+                                    <div class="col-1 pl-0">
+                                        <span class="float-left pt-1 px-0">)</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" name="save">Сохранить</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Назад</button>
+            </div>
+        </div>
+    </div>
+</div>

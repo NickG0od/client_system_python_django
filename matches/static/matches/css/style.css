@@ -1,0 +1,94 @@
+
+.size-w-x {
+    width: var(--w-x) !important;
+}
+.size-min-w-x {
+    min-width: var(--w-min-x) !important;
+}
+.size-max-w-x {
+    max-width: var(--w-max-x) !important;
+}
+.size-h-x {
+    height: var(--h-x) !important;
+}
+.size-min-h-x {
+    min-height: var(--h-min-x) !important;
+}
+.size-max-h-x {
+    max-height: var(--h-max-x) !important;
+}
+
+
+
+.scrollable-block {
+    overflow-y: auto;
+    height: 82vh !important;
+}
+
+
+.form-control.not-valid {
+    border-color: red !important;
+}
+
+
+table.dataTable.table-sm > thead > tr > th {
+    padding: 0 0 !important;
+}
+
+
+.clear-collapses.active, .toggle-collapse.active {
+    text-transform: uppercase;
+    opacity: 0.7;
+}
+
+
+table.protocol-players > tbody > tr > td > .form-control {
+    height: 28px !important;
+}
+
+.protocol-row.row-blue {
+    background-color: rgba(40, 110, 230, 0.05);
+}
+.protocol-row.row-red {
+    background-color: rgba(230, 110, 40, 0.05);
+}
+
+.protocol-row.border-red-top {
+    border-top: 2px solid red !important;
+}
+.protocol-row.border-red-bottom {
+    border-bottom: 2px solid red !important;
+}
+.protocol-row.border-black-top {
+    border-top: 2px solid black !important;
+}
+.protocol-row.border-black-bottom {
+    border-bottom: 2px solid black !important;
+}
+
+
+
+.carousel-nav-icon-custom {
+    color: #000 !important;
+    font-size: 2.5em;
+}
+.video-size {
+    width: 35vw;
+    height: 45vh;
+}
+
+.form-error {
+    border: 2px solid rgb(255, 51, 51) !important;
+}
+
+
+.btn.btn-empty {
+    background-color: rgba(0, 0, 0, 0);
+    color: black;
+}
+
+
+th.dt-vertical-center, td.dt-vertical-center {
+    vertical-align: middle !important;
+}
+

@@ -1,0 +1,145 @@
+<div class="folders_list folders_div mt-2 mx-2" data-id="team_folders">
+    <ul class="list-group">
+    {% for folder in folders %}
+        <li class="list-group-item p-1">
+            <div class="folder-elem d-flex justify-content-between" 
+                data-id="{{ folder.id }}" data-parent="{{ folder.parent }}" 
+                data-short="{{ folder.short_name }}" data-name="{{ folder.name }}" data-root="0">
+                <div class="pull-left">
+                    <span class="folder-point mr-2">
+                        <span class="icon-custom icon--folder ml-1" style="--i-w: 1em; --i-h: 1em;"></span>
+                    </span>
+                    <span class="folder-title">
+                        {% if folders_only_view %}
+                            {{ folder.short_name }}
+                        {% else %}
+                            {{ folder.short_name }}. {{ folder.name }}
+                        {% endif %}
+                    </span>
+                </div>
+                {% if folders_only_view %}
+                <div class="pull-right border-left border-dark">
+                    <div class="pull-right text-right" style="width: 45px;">
+                        <span class="badge badge-light folder-exs-counter mr-1" title="Кол-во упражнений в папке">
+                            ...
+                        </span>
+                    </div>
+                </div>
+                {% else %}
+                <div class="pull-right text-uppercase font-weight-bold">
+                    <span class="badge badge-success folder-sub-add mr-2" title="Добавить подпапку">
+                        <i class="fa fa-plus" aria-hidden="true"></i>
+                    </span>
+                    <span class="badge badge-secondary folder-edit mr-2" title="Изменить элемент">
+                        <i class="fa fa-pencil" aria-hidden="true"></i>
+                    </span>
+                    <span class="badge badge-danger folder-delete mr-2" title="Удалить элемент">
+                        <i class="fa fa-trash-o" aria-hidden="true"></i>
+                    </span>
+                </div>
+                {% endif %}
+            </div>
+        </li>
+    {% empty %}
+        <li class="list-group-item p-1">
+            <div class="folder-elem" data-id="None">
+                [!] Папок нет. Создайте свою структуру папок или скопируйте уже существующую.
+            </div>
+        </li>
+    {% endfor %}
+    </ul>
+</div>
+{% if nfb_folders %}
+    <div class="folders_nfb_list folders_div mt-2 mx-2 d-none" data-id="nfb_folders">
+        <ul class="list-group">
+        {% for folder in nfb_folders %}
+            <li class="list-group-item p-1">
+                <div class="folder-nfb-elem d-flex justify-content-between" 
+                    data-id="{{ folder.id }}" data-parent="{{ folder.parent }}" 
+                    data-short="{{ folder.short_name }}" data-name="{{ folder.name }}" data-root="0">
+                    <div class="pull-left">
+                        <span class="folder-point mr-2">
+                            <span class="icon-custom icon--folder ml-1" style="--i-w: 1em; --i-h: 1em;"></span>
+                        </span>
+                        <span class="folder-title">
+                            {% if folders_only_view %}
+                                {{ folder.short_name }}
+                            {% else %}
+                                {{ folder.short_name }}. {{ folder.name }}
+                            {% endif %}
+                        </span>
+                    </div>
+                    {% if folders_only_view %}
+                    <div class="pull-right border-left border-dark">
+                        <div class="pull-right text-right" style="width: 45px;">
+                            <span class="badge badge-light folder-exs-counter mr-1" title="Кол-во упражнений в папке">
+                                ...
+                            </span>
+                        </div>
+                    </div>
+                    {% else %}
+                    <div class="pull-right text-uppercase font-weight-bold">
+                        <span class="badge badge-success folder-sub-add mr-2" title="Добавить подпапку">
+                            <i class="fa fa-plus" aria-hidden="true"></i>
+                        </span>
+                        <span class="badge badge-secondary folder-edit mr-2" title="Изменить элемент">
+                            <i class="fa fa-pencil" aria-hidden="true"></i>
+                        </span>
+                        <span class="badge badge-danger folder-delete mr-2" title="Удалить элемент">
+                            <i class="fa fa-trash-o" aria-hidden="true"></i>
+                        </span>
+                    </div>
+                    {% endif %}
+                </div>
+            </li>
+        {% endfor %}
+        </ul>
+    </div>
+{% endif %}
+{% if club_folders %}
+    <div class="folders_club_list folders_div mt-2 mx-2 d-none" data-id="club_folders">
+        <ul class="list-group">
+        {% for folder in club_folders %}
+            <li class="list-group-item p-1">
+                <div class="folder-club-elem d-flex justify-content-between" 
+                    data-id="{{ folder.id }}" data-parent="{{ folder.parent }}" 
+                    data-short="{{ folder.short_name }}" data-name="{{ folder.name }}" data-root="0">
+                    <div class="pull-left">
+                        <span class="folder-point mr-2">
+                            <span class="icon-custom icon--folder ml-1" style="--i-w: 1em; --i-h: 1em;"></span>
+                        </span>
+                        <span class="folder-title">
+                            {% if folders_only_view %}
+                                {{ folder.short_name }}
+                            {% else %}
+                                {{ folder.short_name }}. {{ folder.name }}
+                            {% endif %}
+                        </span>
+                    </div>
+                    {% if folders_only_view %}
+                    <div class="pull-right border-left border-dark">
+                        <div class="pull-right text-right" style="width: 45px;">
+                            <span class="badge badge-light folder-exs-counter mr-1" title="Кол-во упражнений в папке">
+                                ...
+                            </span>
+                        </div>
+                    </div>
+                    {% else %}
+                    <div class="pull-right text-uppercase font-weight-bold">
+                        <span class="badge badge-success folder-sub-add mr-2" title="Добавить подпапку">
+                            <i class="fa fa-plus" aria-hidden="true"></i>
+                        </span>
+                        <span class="badge badge-secondary folder-edit mr-2" title="Изменить элемент">
+                            <i class="fa fa-pencil" aria-hidden="true"></i>
+                        </span>
+                        <span class="badge badge-danger folder-delete mr-2" title="Удалить элемент">
+                            <i class="fa fa-trash-o" aria-hidden="true"></i>
+                        </span>
+                    </div>
+                    {% endif %}
+                </div>
+            </li>
+        {% endfor %}
+        </ul>
+    </div>
+{% endif %}

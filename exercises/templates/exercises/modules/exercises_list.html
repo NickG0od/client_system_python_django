@@ -1,0 +1,298 @@
+<div class="exercises-list split">
+    <div class="px-1 ml-1 folders-block" id="splitCol_0">
+        {% include 'exercises/folders_list.html' %}
+    </div>
+    <div class="px-1 exercises-block" id="splitCol_1">
+        <div class="row w-100">
+            <div class="col-12 d-flex">
+                
+                <!-- <button type="button" class="btn btn-secondary btn-sm elem-flex-center size-w-x mr-1" data-type="icons" data-id="num" style="--w-x:32px;" disabled="">
+                    №
+                </button>
+                <button type="button" class="btn btn-secondary btn-sm elem-flex-center size-w-x mr-1" data-type="icons" data-id="players" style="--w-x:32px; min-width: 32px;" disabled="">
+                    #
+                </button>
+                <button type="button" class="btn btn-secondary btn-sm elem-flex-center size-w-x mr-1" data-type="icons" data-id="goal" style="--w-x:32px; min-width: 32px;" disabled="">
+                    G.
+                </button>
+                <button type="button" class="btn btn-secondary btn-sm elem-flex-center size-w-x mr-1" data-type="icons" data-id="ball" style="--w-x:32px;" disabled="">
+                    <span class="icon-custom icon--ball" style="--i-w: 1.3em; --i-h: 1.3em;"></span>
+                </button>
+                <button type="button" class="btn btn-secondary btn-sm elem-flex-center size-w-x mr-1" data-type="icons" data-id="watches" style="--w-x:32px;" disabled="">
+                    <span class="icon-custom icon--check" style="--i-w: 1.3em; --i-h: 1.3em;"></span>
+                </button>
+                <button type="button" class="btn btn-secondary btn-sm elem-flex-center size-w-x mr-1" data-type="icons" data-id="favor" style="--w-x:32px;" disabled="">
+                    <span class="icon-custom icon--favorite" style="--i-w: 1.3em; --i-h: 1.3em;"></span>
+                </button>
+                <button type="button" class="btn btn-secondary btn-sm elem-flex-center size-w-x mr-1" data-type="icons" data-id="like" style="--w-x:32px;" disabled="">
+                    <span class="icon-custom icon--like" style="--i-w: 1.3em; --i-h: 1.3em;"></span>
+                </button>
+                <button type="button" class="btn btn-secondary btn-sm elem-flex-center size-w-x mr-1" data-type="icons" data-id="video" style="--w-x:32px; min-width: 32px;" disabled="">
+                    V.
+                </button>
+                <button type="button" class="btn btn-secondary btn-sm elem-flex-center size-w-x mr-1" data-type="icons" data-id="anim" style="--w-x:32px; min-width: 32px;" disabled="">
+                    A.
+                </button>
+                <button type="button" class="btn btn-secondary btn-sm elem-flex-center size-w-x mr-1" data-type="icons" data-id="stress" style="--w-x:32px;" disabled="">
+                    IQ.
+                </button> -->
+            </div>
+        </div>
+        <div class="row mt-2">
+            <div class="col-12 d-flex">
+                <input type="search" class="form-control form-control-sm exs-search text-center" placeholder="Поиск" aria-controls="false">
+            </div>
+        </div>
+        <ul class="exs-list-group list-group list-group-flush">
+            <li class="list-group-item py-2">Выберите для начала папку.</li>
+        </ul>
+    </div>
+    <div class="pl-3 visual-block" id="splitCol_2">
+        <div class="row w-100">
+            <div class="col-12 px-0">
+                <div id="carouselSchema" class="carousel slide mt-2" data-ride="carousel" data-interval="false">
+                    <ol class="carousel-indicators">
+                        <li data-target="#carouselSchema" data-slide-to="0" class="active"></li>
+                        <li data-target="#carouselSchema" data-slide-to="1"></li>
+                    </ol>
+                    <div class="carousel-inner">
+                        <div class="carousel-item active">
+                            <svg id="" class="d-block bg-success mx-auto" viewBox="0 0 600 400" height="100%" width="100%" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" "="">
+                                <image id="plane" x="0" y="0" data-width="600" data-height="400" width="100%" height="100%" href="/static/exercises/img/field.svg"></image>
+                            </svg>
+                        </div>
+                        <div class="carousel-item">
+                            <svg id="" class="d-block bg-success mx-auto" viewBox="0 0 600 400" height="100%" width="100%" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" "="">
+                                <image id="plane" x="0" y="0" data-width="600" data-height="400" width="100%" height="100%" href="/static/exercises/img/field.svg"></image>
+                            </svg>
+                        </div>
+                    </div>
+                    <a class="carousel-control-prev ml-2" href="#carouselSchema" role="button" data-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="sr-only">Previous</span>
+                    </a>
+                    <a class="carousel-control-next" href="#carouselSchema" role="button" data-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="sr-only">Next</span>
+                    </a>
+                </div>
+            </div>
+            <div class="col-12 px-0">
+                <div id="carouselVideo" class="carousel slide mt-2" data-ride="carousel" data-interval="false">
+                    <ol class="carousel-indicators">
+                        <li data-target="#carouselVideo" data-slide-to="0" class="active"></li>
+                        <li data-target="#carouselVideo" data-slide-to="1"></li>
+                    </ol>
+                    <div class="carousel-inner">
+                        <div class="carousel-item active">
+                            <video id="video-player-card-1" class="video-js resize-block not-active">
+                            </video>
+                        </div>
+                        <div class="carousel-item">
+                            <video id="video-player-card-2" class="video-js resize-block not-active">
+                            </video>
+                        </div>
+                    </div>
+                    <a class="carousel-control-prev ml-2" href="#carouselVideo" role="button" data-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="sr-only">Previous</span>
+                    </a>
+                    <a class="carousel-control-next" href="#carouselVideo" role="button" data-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="sr-only">Next</span>
+                    </a>
+                </div>
+            </div>
+            <div class="col-12 px-0">
+                <div id="carouselAnim" class="carousel slide mt-2" data-ride="carousel" data-interval="false">
+                    <ol class="carousel-indicators">
+                        <li data-target="#carouselAnim" data-slide-to="0" class="active"></li>
+                        <li data-target="#carouselAnim" data-slide-to="1"></li>
+                    </ol>
+                    <div class="carousel-inner">
+                        <div class="carousel-item active">
+                            <video id="video-player-card-3" class="video-js resize-block not-active">
+                            </video>
+                        </div>
+                        <div class="carousel-item">
+                            <video id="video-player-card-4" class="video-js resize-block not-active">
+                            </video>
+                        </div>
+                    </div>
+                    <a class="carousel-control-prev ml-2" href="#carouselAnim" role="button" data-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="sr-only">Previous</span>
+                    </a>
+                    <a class="carousel-control-next" href="#carouselAnim" role="button" data-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="sr-only">Next</span>
+                    </a>
+                </div>
+            </div>
+            <div class="col-12 px-0 d-none" data-id="carousel_all">
+                <div id="carouselAll" class="carousel slide mt-2" data-ride="carousel" data-interval="false">
+                    <div class="carousel-inner">
+                    </div>
+                    <a class="carousel-control-prev ml-2" href="#carouselAll" role="button" data-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="sr-only">Previous</span>
+                    </a>
+                    <a class="carousel-control-next" href="#carouselAll" role="button" data-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="sr-only">Next</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+        
+        <!-- <div class="row ml-2 w-100 size-h-x" style="--h-x:30vh;">
+            <div class="col-12 px-0 graphics-block h-100" data-id="drawing">
+                <div class="mx-2 h-100">
+                    <svg id="" class="d-block bg-success mx-auto h-100" viewBox="0 0 600 400" height="100%" width="100%" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" "="">
+                        <image id="plane" x="0" y="0" data-width="600" data-height="400" width="100%" height="100%" href="/static/exercises/img/field.svg"></image>
+                    </svg>
+                </div>
+            </div>
+            <div class="col-12 px-0 graphics-block h-100 d-none" data-id="video">
+                <div class="mx-2 h-100 size-w-x" style="--w-x:23vw;">
+                    <video id="video-player" class="video-js resize-block">
+                    </video>
+                </div>
+            </div>
+            <div class="col-12 px-0 graphics-block h-100 d-none" data-id="animation">
+                <div class="mx-2 h-100">
+                    <img src="/static/exercises/img/video_player_temp.jpg" class="img-fluid h-100" alt="[ ANIM ]" "="">
+                </div>
+            </div>
+        </div>
+        <div class="row ml-2 w-100 size-h-x" style="--h-x:33px;">
+            <div class="col-12 px-0 btn-group">
+                <button type="button" class="btn btn-link btn-sm graphics-block-toggle mx-1 selected" data-id="drawing">Рисунок</button>
+                <button type="button" class="btn btn-link btn-sm graphics-block-toggle mx-1" data-id="video">Видео</button>
+                <button type="button" class="btn btn-link btn-sm graphics-block-toggle mx-1" data-id="animation">Анимация</button>
+            </div>
+        </div>
+        <div class="row ml-2 w-100 size-h-x" style="--h-x:30vh;">
+            <div class="col-12 px-0 graphics-block h-100" data-id="drawing">
+                <div class="mx-2 h-100 size-w-x" >
+                    <svg id="" class="d-block bg-success mx-auto h-100" viewBox="0 0 600 400" height="100%" width="100%" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" "="">
+                        <image id="plane" x="0" y="0" data-width="600" data-height="400" width="100%" height="100%" href="/static/exercises/img/field.svg"></image>
+                    </svg>
+                </div>
+            </div>
+            <div class="col-12 px-0 graphics-block h-100 d-none" data-id="video">
+                <div class="mx-2 h-100 size-w-x" style="--w-x:23vw;">
+                    <video id="video-player2" class="video-js resize-block">
+                    </video>
+                </div>
+            </div>
+            <div class="col-12 px-0 graphics-block h-100 d-none" data-id="animation">
+                <div class="mx-2 h-100">
+                    <img src="/static/exercises/img/video_player_temp.jpg" class="img-fluid h-100" alt="[ ANIM ]" "="">
+                </div>
+            </div>
+        </div> -->
+    </div>
+    <div class="px-1 mr-custom-1 mt-2 side-filter-block d-none" id="splitCol_3" style="width: 16%;">
+        <div class="d-flex justify-content-center btn-tab-second">
+            <button type="button" class="btn btn-outline-danger btn-sm btn-block mb-1" id="filterReset">Сбросить</button>
+        </div>
+        <div class="d-flex justify-content-center btn-tab-second">
+            <button type="button" class="btn btn-outline-primary btn-sm btn-block toggle-filter-content mb-1" data-id="category">Категория</button>
+        </div>
+        <ul class="list-group list-group-flush d-none" data-id="category">
+        {% for elem in refs.exs_category %}
+            <li class="side-filter-elem list-group-item py-0" data-id="{{ elem.id }}">
+                <div class="row">
+                    <div class="col-12 text-left px-1">
+                        <span>{{ elem.title }}</span>
+                    </div>
+                </div>
+            </li>
+        {% endfor %}
+        </ul>
+        <div class="d-flex justify-content-center btn-tab-second">
+            <button type="button" class="btn btn-outline-primary btn-sm btn-block toggle-filter-content mb-1" data-id="filter">Фильтровать</button>
+        </div>
+        <ul class="list-group list-group-flush" data-id="filter">
+            {% for elem in refs.exs_goal %}
+                <li class="side-filter-elem list-group-item py-0" data-id="{{ elem.id }}" data-type="goal">
+                    <div class="row">
+                        <div class="col-8 text-left px-1">
+                            <span>{{ elem.title }}</span>
+                        </div>
+                        <div class="col-4 text-right px-1">
+                        </div>
+                    </div>
+                </li>
+            {% endfor %}
+            {% for elem in refs.exs_ball %}
+                <li class="side-filter-elem list-group-item py-0" data-id="{{ elem.id }}" data-type="ball">
+                    <div class="row">
+                        <div class="col-8 text-left px-1">
+                            <span>{{ elem.title }}</span>
+                        </div>
+                        <div class="col-4 text-right px-1">
+                        </div>
+                    </div>
+                </li>
+            {% endfor %}
+            <li class="side-filter-elem list-group-item py-0" data-type="watch" data-id="1">
+                <div class="row">
+                    <div class="col-8 text-left px-1">
+                        <span>смотрел</span>
+                    </div>
+                    <div class="col-4 text-right px-1">
+                    </div>
+                </div>
+            </li>
+            <li class="side-filter-elem list-group-item py-0" data-type="watch" data-id="0">
+                <div class="row">
+                    <div class="col-8 text-left px-1">
+                        <span>не смотрел</span>
+                    </div>
+                    <div class="col-4 text-right px-1">
+                    </div>
+                </div>
+            </li>
+            <li class="side-filter-elem list-group-item py-0" data-type="favorite" data-id="1">
+                <div class="row">
+                    <div class="col-8 text-left px-1">
+                        <span>избранное</span>
+                    </div>
+                    <div class="col-4 text-right px-1">
+                    </div>
+                </div>
+            </li>
+            <li class="side-filter-elem list-group-item py-0" data-type="new_exs" data-id="1">
+                <div class="row">
+                    <div class="col-8 text-left px-1">
+                        <span>новые N</span>
+                    </div>
+                    <div class="col-4 text-right px-1">
+                    </div>
+                </div>
+            </li>
+        </ul>
+        <div class="d-flex justify-content-center btn-tab-second">
+            <button type="button" class="btn btn-outline-primary btn-sm btn-block toggle-filter-content mb-1" data-id="keywords">Ключевые слова</button>
+        </div>
+        <ul class="list-group list-group-flush d-none" data-id="keywords">
+            <li class="side-filter-elem list-group-item py-0 px-2">
+                test 1
+            </li>
+            <li class="side-filter-elem list-group-item py-0 px-2">
+                test 2
+            </li>
+            <li class="side-filter-elem list-group-item py-0 px-2">
+                test 3
+            </li>
+        </ul>
+        <div class="d-flex justify-content-center btn-tab-second">
+            <button type="button" class="btn btn-outline-primary btn-sm btn-block toggle-filter-content mb-1" data-id="newexs">Новые упражнения</button>
+        </div>
+        <ul class="list-group list-group-flush d-none" data-id="newexs">
+        </ul>
+    </div>
+</div>
+

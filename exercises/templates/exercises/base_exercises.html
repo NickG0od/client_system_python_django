@@ -1,0 +1,763 @@
+{% extends '../base/app_main.html' %}
+{% load static %}
+
+{% block title %}Упражнения{% endblock %}
+
+{% block custom_style %}
+    <link rel="stylesheet" href="{% static 'exercises/css/style.css' %}">
+{% endblock %}
+
+{% block content %}
+    <main class="">
+        <div class="row">
+            <div class="col-12">
+                <div class="card mb-1">
+                    <div class="card-body p-1">
+                        <div class="card-inside">
+                            <div class="up-block-content d-flex justify-content-center">
+                                <div class="btns-tabs-first size-w-x" style="--w-x:96%;">
+                                    <div class="row">
+                                        <div class="col-12 p-0 btn-group btn-group-custom">
+                                            <button type="button" class="btn btn-secondary btn-sm btn-custom btn-block elem-flex-center size-max-w-x" id="toggleFoldersNames" title="Свернуть / Развернуть папки" style="--w-max-x:4%;">
+                                                <i class="fa fa-arrow-right" aria-hidden="true"></i>
+                                            </button>
+                                            <button type="button" class="btn btn-secondary btn-sm btn-custom btn-block elem-flex-center size-max-w-x" id="createExercise" title="Добавить упражнение" style="--w-max-x:4%;">
+                                                <span class="icon-custom icon--plus mx-1" style="--i-w: 1.3em; --i-h: 1.3em;"></span>
+                                            </button>
+                                            <button type="button" class="btn btn-success btn-sm btn-custom custom-green2 btn-block up-tabs-elem folders-toggle size-max-w-x" data-id="nfb_folders" style="--w-max-x:22%;">
+                                                <div class="">
+                                                    <span class="text-center ml-2">ПАПКИ N.F.</span>
+                                                    <span class="exs_counter float-right">(...)</span>
+                                                </div>
+                                            </button>
+                                            <button type="button" class="btn btn-warning btn-sm btn-custom custom-red2 btn-block up-tabs-elem folders-toggle size-max-w-x d-none" data-id="club_folders" style="--w-max-x:22%;">
+                                                <div class="">
+                                                    <span class="text-center ml-2">ПАПКИ "КЛУБ"</span>
+                                                    <span class="exs_counter float-right">(...)</span>
+                                                </div>
+                                            </button>
+                                            <button type="button" class="btn btn-sm btn-custom custom-blue2 btn-block up-tabs-elem folders-toggle size-max-w-x d-none" data-id="team_folders" style="--w-max-x:22%;">
+                                                <div class="">
+                                                    <span class="text-center ml-2">ПАПКИ "КОМАНДА"</span>
+                                                    <span class="exs_counter float-right">(...)</span>
+                                                </div>
+                                            </button>
+                                            <button type="button" class="btn btn-secondary btn-sm btn-custom custom-blue w-100 mr-1 size-max-w-x" id="showOneExs" style="--w-max-x:13%;">
+                                                Просмотреть
+                                            </button>
+                                            <button type="button" class="btn btn-secondary btn-sm btn-custom btn-block up-tabs-elem size-max-w-x" data-id="copy" title="Скопировать" style="--w-max-x:4%;">
+                                                <span class="icon-custom icon--copy mt-1" style="--i-w: 1.3em; --i-h: 1.3em;"></span>
+                                            </button>
+                                            <button type="button" class="btn btn-secondary btn-sm btn-custom btn-block up-tabs-elem size-max-w-x" data-id="move" title="Перенести" style="--w-max-x:4%;">
+                                                <span class="icon-custom icon--folder-o mt-1" style="--i-w: 1.7em; --i-h: 1.7em;"></span>
+                                            </button>
+                                            <button type="button" class="btn btn-secondary btn-sm btn-custom btn-block up-tabs-elem size-max-w-x" data-id="share" title="Поделиться" style="--w-max-x:4%;">
+                                                <span class="icon-custom icon--share mt-1" style="--i-w: 1.7em; --i-h: 1.7em;"></span>
+                                            </button>
+                                            <button type="button" class="btn btn-secondary btn-sm btn-custom btn-block font-larger up-tabs-elem size-max-w-x" data-id="" title="" style="--w-max-x:4%;">
+                                                V.A.
+                                            </button>
+                                            <button type="button" class="btn btn-secondary btn-sm btn-custom btn-block up-tabs-elem size-max-w-x" data-id="toggle_favorite" title="Избранное" style="--w-max-x:4%;">
+                                                <span class="icon-custom icon--favorite mt-1" style="--i-w: 1.3em; --i-h: 1.3em;"></span>
+                                            </button>
+                                            <button type="button" class="btn btn-secondary btn-sm btn-custom btn-block font-larger up-tabs-elem size-max-w-x" data-id="goal" title="Ворота" style="--w-max-x:4%;">
+                                                G.
+                                            </button>
+                                            <button type="button" class="btn btn-secondary btn-sm btn-custom btn-block up-tabs-elem size-max-w-x" data-id="players" title="Игроки" style="--w-max-x:4%;">
+                                                <span class="icon-custom icon--players mt-1" style="--i-w: 1.4em; --i-h: 1.4em;"></span>
+                                            </button>
+                                            <button type="button" class="btn btn-secondary btn-sm btn-custom btn-block up-tabs-elem size-max-w-x" data-id="toggle_markers" title="Маркировать" style="--w-max-x:4%;">
+                                                <span class="icon-custom icon--eye mt-1" style="--i-w: 1.5em; --i-h: 1.5em;"></span>
+                                            </button>
+                                            <button type="button" class="btn btn-secondary btn-sm btn-custom btn-block up-tabs-elem size-max-w-x" data-id="toggle_side_filter" style="--w-max-x:13%;">
+                                                Фильтрация
+                                            </button>
+                                            <button type="button" class="btn btn-secondary btn-sm btn-custom btn-block up-tabs-elem elem-flex-center size-max-w-x" data-id="prev_exs" title="" style="--w-max-x:4%;">
+                                                <i class="fa fa-arrow-left" aria-hidden="true"></i>
+                                            </button>
+                                            <button type="button" class="btn btn-secondary btn-sm btn-custom btn-block up-tabs-elem elem-flex-center size-max-w-x" data-id="next_exs" title="" style="--w-max-x:4%;">
+                                                <i class="fa fa-arrow-right" aria-hidden="true"></i>
+                                            </button>
+                                            <button type="button" id="columnsSizeToggle" class="btn btn-secondary btn-sm btn-custom btn-block elem-flex-center size-max-w-x" title="Изменить ширину колонок" style="--w-max-x:4%;">
+                                                <i class="fa fa-cog" aria-hidden="true"></i>
+                                            </button>
+
+                                            <!-- <button type="button" class="btn btn-secondary btn-sm btn-custom up-tabs-elem" data-id="nfb_folders" title="Папки NanoFootball">N.F.</button>
+                                            <button type="button" class="btn btn-secondary btn-sm btn-custom elem-flex-center" id="createExercise">
+                                                Добавить
+                                                <span class="icon-custom icon--plus mx-1" style="--i-w: 1.3em; --i-h: 1.3em;"></span>
+                                            </button>
+                                            <button type="button" class="btn btn-secondary btn-sm btn-custom elem-flex-center size-w-x" id="toggleFoldersNames" title="Скрыть / развернуть" style="--w-x:1%;">
+                                                <span class="icon-custom icon--arrow-left" style="--i-w: 1.5em; --i-h: 1.5em;"></span>
+                                            </button>
+                                            <button type="button" class="btn btn-secondary btn-sm btn-custom" title="">
+                                                PRO
+                                            </button>
+                                            <button type="button" class="btn btn-secondary btn-sm btn-custom" title="">
+                                                "A"
+                                            </button>
+                                            <input type="text" class="form-control text-center size-w-x size-max-h-x" id="" placeholder="Возр." title="Возраст" style="--w-x:5%; --h-max-x:37.2px; margin-top: .1rem !important;">
+                                            <button type="button" class="btn btn-secondary btn-sm btn-custom size-w-x" data-id="exs_counter" title="Количество упражнений" style="--w-x:1%;">5000</button>
+                                            <button type="button" class="btn btn-secondary btn-sm btn-custom elem-flex-center size-w-x"" data-id="filter_reset" title="Сброс фильтров" style="--w-x:1%;">
+                                                <span class="icon-custom icon--reset" style="--i-w: 1.5em; --i-h: 1.5em;"></span>
+                                            </button>
+                                            <button type="button" class="btn btn-secondary btn-sm btn-custom" id="showOneExs">Показать</button>
+                                            <button type="button" class="btn btn-secondary btn-sm btn-custom" title="">
+                                                Перенести
+                                            </button>
+                                            <button type="button" class="btn btn-secondary btn-sm btn-custom elem-flex-center size-w-x" data-id="" title="Отметить" style="--w-x:1%;">
+                                                <span class="icon-custom icon--note" style="--i-w: 1.3em; --i-h: 1.3em;"></span>
+                                            </button>
+                                            <button type="button" class="btn btn-secondary btn-sm btn-custom up-tabs-elem elem-flex-center size-w-x" data-id="copy" title="Копировать" style="--w-x:1%;">
+                                                <span class="icon-custom icon--copy" style="--i-w: 1.3em; --i-h: 1.3em;"></span>
+                                            </button>
+                                            <button type="button" class="btn btn-secondary btn-sm btn-custom elem-flex-center size-w-x" data-id="" title="Поделиться" style="--w-x:1%;">
+                                                <span class="icon-custom icon--share" style="--i-w: 1.5em; --i-h: 1.5em;"></span>
+                                            </button>
+                                            <button type="button" class="btn btn-secondary btn-sm btn-custom elem-flex-center size-w-x" data-id="" title="Настройки" style="--w-x:1%;">
+                                                <span class="icon-custom icon--settings" style="--i-w: 1.3em; --i-h: 1.3em;"></span>
+                                            </button>
+                                            <button type="button" class="btn btn-secondary btn-sm btn-custom up-tabs-elem" data-id="toggle_side_filter">Фильтрация</button>
+                                            <button type="button" class="btn btn-secondary btn-sm btn-custom up-tabs-elem elem-flex-center size-w-x" data-id="prev_exs" title="" style="--w-x:1%;">
+                                                <span class="icon-custom icon--arrow-left" style="--i-w: 1.3em; --i-h: 1.3em;"></span>
+                                            </button>
+                                            <button type="button" class="btn btn-secondary btn-sm btn-custom up-tabs-elem elem-flex-center size-w-x" data-id="next_exs" title="" style="--w-x:1%;">
+                                                <span class="icon-custom icon--arrow-right" style="--i-w: 1.3em; --i-h: 1.3em;"></span>
+                                            </button>
+                                            <button type="button" class="btn btn-primary btn-sm btn-custom elem-flex-center up-tabs-elem" data-id="my_folders" title="Папки Тренер">
+                                                <span class="icon-custom icon--trainer" style="--i-w: 1.8em; --i-h: 1.8em;"></span>
+                                            </button> -->
+                                            <!-- <button type="button" class="btn btn-secondary btn-sm btn-custom" data-id="exs_counter" title="Количество упражнений">5000</button>
+                                            <button type="button" class="btn btn-secondary btn-sm btn-custom elem-flex-center" data-id="filter_reset" title="Сброс фильтров">
+                                                <span class="icon-custom icon--reset" style="--i-w: 1.8em; --i-h: 1.8em;"></span>
+                                            </button>
+                                            <button type="button" class="btn btn-secondary btn-sm btn-custom up-tabs-elem" data-id="copy">Копировать</button>
+                                            <button type="button" class="btn btn-secondary btn-sm btn-custom up-tabs-elem" data-id="open_card_view">Просмотреть</button>
+                                            <button type="button" class="btn btn-secondary btn-sm btn-custom up-tabs-elem" data-id="open_card_temp">Показать</button>
+                                            <button type="button" class="btn btn-secondary btn-sm btn-custom up-tabs-elem" data-id="open_card_edit">Редактировать</button>
+                                            <button type="button" class="btn btn-secondary btn-sm btn-custom up-tabs-elem" data-id="mark_exs">Маркировать</button>
+                                            <button type="button" class="btn btn-secondary btn-sm btn-custom up-tabs-elem" data-id="share_exs">Поделиться</button>
+                                            <button type="button" class="btn btn-secondary btn-sm btn-custom up-tabs-elem" data-id="toggle_side_filter">Фильтрация</button> -->
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="btns-tabs-second" style="display: none;">
+                                    <div class="d-flex flex-row my-2">
+                                        <div class="w-100 text-center vert-line-left vert-line-right up-filter-elem" data-id="">
+                                            <div class="">
+                                                <span>с</span>
+                                            </div>
+                                            <div class="">
+                                                <span class="value">---</span>
+                                            </div>
+                                        </div>
+                                        <div class="w-100 text-center vert-line-right up-filter-elem" data-id="">
+                                            <div class="">
+                                                <span>по</span>
+                                            </div>
+                                            <div class="">
+                                                <span class="value">---</span>
+                                            </div>
+                                        </div>
+                                        <div class="w-100 text-center vert-line-right up-filter-elem" data-id="">
+                                            <div class="">
+                                                <span>PRO</span>
+                                            </div>
+                                            <div class="">
+                                                <span class="value">---</span>
+                                            </div>
+                                        </div>
+                                        <div class="w-100 text-center vert-line-right up-filter-elem" data-id="">
+                                            <div class="">
+                                                <span>G.</span>
+                                            </div>
+                                            <div class="">
+                                                <span class="value">---</span>
+                                            </div>
+                                        </div>
+                                        <div class="w-100 text-center vert-line-right up-filter-elem" data-id="">
+                                            <div class="">
+                                                <span>g.</span>
+                                            </div>
+                                            <div class="">
+                                                <span class="value">---</span>
+                                            </div>
+                                        </div>
+                                        <div class="w-100 text-center vert-line-right up-filter-elem" data-id="">
+                                            <div class="">
+                                                <span><i class="fa fa-futbol-o" aria-hidden="true"></i></span>
+                                            </div>
+                                            <div class="">
+                                                <span class="value">---</span>
+                                            </div>
+                                        </div>
+                                        <div class="w-100 text-center vert-line-right up-filter-elem" data-id="">
+                                            <div class="">
+                                                <span style="color: red;"><i class="fa fa-futbol-o" aria-hidden="true"></i></span>
+                                            </div>
+                                            <div class="">
+                                                <span class="value">---</span>
+                                            </div>
+                                        </div>
+                                        <div class="w-100 text-center vert-line-right up-filter-elem" data-id="">
+                                            <div class="">
+                                                <span>V.</span>
+                                            </div>
+                                            <div class="">
+                                                <span class="value">---</span>
+                                            </div>
+                                        </div>
+                                        <div class="w-100 text-center vert-line-right up-filter-elem" data-id="">
+                                            <div class="">
+                                                <span>A.</span>
+                                            </div>
+                                            <div class="">
+                                                <span class="value">---</span>
+                                            </div>
+                                        </div>
+                                        <div class="w-100 text-center vert-line-right up-filter-elem" data-id="">
+                                            <div class="">
+                                                <span><i class="fa fa-eye" aria-hidden="true"></i></span>
+                                            </div>
+                                            <div class="">
+                                                <span class="value">---</span>
+                                            </div>
+                                        </div>
+                                        <div class="w-100 text-center vert-line-right up-filter-elem" data-id="">
+                                            <div class="">
+                                                <span><i class="fa fa-eye-slash" aria-hidden="true"></i></span>
+                                            </div>
+                                            <div class="">
+                                                <span class="value">---</span>
+                                            </div>
+                                        </div>
+                                        <div class="w-100 text-center vert-line-right up-filter-elem" data-id="">
+                                            <div class="">
+                                                <span><i class="fa fa-star-o" aria-hidden="true"></i></span>
+                                            </div>
+                                            <div class="">
+                                                <span class="value">---</span>
+                                            </div>
+                                        </div>
+                                        <div class="w-100 text-center vert-line-right up-filter-elem" data-id="">
+                                            <div class="">
+                                                <span><i class="fa fa-thumbs-o-up" aria-hidden="true"></i></span>
+                                            </div>
+                                            <div class="">
+                                                <span class="value">---</span>
+                                            </div>
+                                        </div>
+                                        <div class="w-100 text-center vert-line-right up-filter-elem" data-id="">
+                                            <div class="">
+                                                <span><i class="fa fa-thumbs-o-down" aria-hidden="true"></i></span>
+                                            </div>
+                                            <div class="">
+                                                <span class="value">---</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="exerises-content mt-1">
+                                {% include 'exercises/modules/exercises_list.html' %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="exerciseCardModal" tabindex="-1" role="dialog" aria-labelledby="exerciseCardModalLbl" aria-hidden="true" data-exs="">
+            <div class="modal-dialog modal-xl" role="document" style="max-width: 90vw;">
+                <div class="modal-content">
+                    <div class="modal-header py-1">
+                        <div class="row w-100">
+                            <div class="col-8 p-1">
+                                <button type="button" class="btn btn-secondary btn-sm size-w-x" id="openContent" style="--w-x:15%;">Содержание</button>
+                                <button type="button" class="btn btn-success btn-sm size-w-x" id="openDescription" style="--w-x:15%;">Описание</button>
+                                <button type="button" class="btn btn-secondary btn-sm btn-not-view size-w-x" id="saveExs" style="--w-x:15%;">Сохранить</button>
+                                <button type="button" class="btn btn-secondary btn-sm size-w-x" style="--w-x:15%;">Справочники</button>
+                            </div>
+                            <div class="col-4 p-1 d-flex justify-content-end">
+                                <button type="button" class="btn btn-secondary btn-sm size-w-x mx-1" id="columnsSizeInCard" style="--w-x:10%;" title="Изменить размер колонок">
+                                    <i class="fa fa-cog" aria-hidden="true"></i>
+                                </button>
+                                <button type="button" class="btn btn-secondary btn-sm btn-only-edit size-w-x mx-1" style="--w-x:10%;" title="Поделиться">
+                                    <i class="fa fa-share-square-o" aria-hidden="true"></i>
+                                </button>
+                                <button type="button" class="btn btn-secondary btn-sm btn-only-edit btn-not-view size-w-x mx-1" id="deleteExercise" style="--w-x:10%;" title="Удалить">
+                                    <i class="fa fa-trash-o" aria-hidden="true"></i>
+                                </button>
+                                <button type="button" class="btn btn-secondary btn-sm btn-only-edit exs-change size-w-x mx-1" data-dir="prev" style="--w-x:10%;" title="Предыдущее">
+                                    <i class="fa fa-long-arrow-left" aria-hidden="true"></i>
+                                </button>
+                                <button type="button" class="btn btn-secondary btn-sm btn-only-edit exs-change size-w-x mx-1" data-dir="next" style="--w-x:10%;" title="Следующее">
+                                    <i class="fa fa-long-arrow-right" aria-hidden="true"></i>
+                                </button>
+                                <button type="button" class="btn btn-danger btn-sm size-w-x" data-dismiss="modal" style="--w-x:30%;">Выйти</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-body py-0 size-h-x" style="--h-x: 85vh; overflow-y: auto;">
+                        <div class="tabs-block">
+                            <div class="tab-content" id="cardBlock">
+                                <div class="tab-pane fade show active" id="card_description" role="tabpanel" aria-labelledby="card_content-tab">
+                                    <div class="card-description split">
+                                        <div class="" id="splitCol_10">
+                                            <table class="table table-sm table-bordered" style="table-layout: fixed;">
+                                                <colgroup>
+                                                    <col span="1" style="width: 30%;">
+                                                    <col span="1" style="width: 70%;">
+                                                </colgroup>
+                                                <tbody>
+                                                    <tr class="bck-light-gray">
+                                                        <td class="text-center font-weight-bold" colspan="2">Nanofootball</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="text-center" colspan="2">
+                                                            <input name="title" class="form-control form-control-sm exs_edit_field" type="text" value="" placeholder="Название" autocomplete="off" disabled="">
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="bck-light-gray">Ключевое слово</td>
+                                                        <td>
+                                                            <input name="keyword" class="form-control form-control-sm exs_edit_field" type="text" value="" placeholder="" autocomplete="off">
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="bck-light-gray">Главная папка</td>
+                                                        <td>
+                                                            <select name="folder_parent" class="form-control form-control-sm exs_edit_field folder_nfb d-none" required="" autocomplete="off" disabled="">
+                                                                <option value="">---</option>
+                                                                {% for folder in nfb_folders %}
+                                                                    {% if folder.root %}
+                                                                        <option value="{{ folder.id }}">{{ folder.short_name }}. {{ folder.name }}</option>
+                                                                    {% endif %}
+                                                                {% endfor %}
+                                                            </select>
+                                                            <select name="folder_parent" class="form-control form-control-sm exs_edit_field folder_default" required="" autocomplete="off" disabled="">
+                                                                <option value="">---</option>
+                                                                {% for folder in folders %}
+                                                                    {% if folder.root %}
+                                                                        <option value="{{ folder.id }}">{{ folder.short_name }}. {{ folder.name }}</option>
+                                                                    {% endif %}
+                                                                {% endfor %}
+                                                            </select>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="bck-light-gray">Папка</td>
+                                                        <td>
+                                                            <select name="folder_main" class="form-control form-control-sm exs_edit_field folder_nfb d-none" required="" autocomplete="off" disabled="">
+                                                                <option value="">---</option>
+                                                                {% for folder in nfb_folders %}
+                                                                    {% if not folder.root %}
+                                                                        <option value="{{ folder.id }}" data-parent="{{ folder.parent }}">{{ folder.short_name }}. {{ folder.name }}</option>
+                                                                    {% endif %}
+                                                                {% endfor %}
+                                                            </select>
+                                                            <select name="folder_main" class="form-control form-control-sm exs_edit_field folder_default" required="" autocomplete="off" disabled="">
+                                                                <option value="">---</option>
+                                                                {% for folder in folders %}
+                                                                    {% if not folder.root %}
+                                                                        <option value="{{ folder.id }}" data-parent="{{ folder.parent }}">{{ folder.short_name }}. {{ folder.name }}</option>
+                                                                    {% endif %}
+                                                                {% endfor %}
+                                                            </select>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="bck-light-gray">Ворота</td>
+                                                        <td>
+                                                            <select name="ref_goal" class="form-control form-control-sm exs_edit_field" autocomplete="off" disabled="">
+                                                                <option value="">---</option>
+                                                                {% for elem in refs.exs_goal %}
+                                                                    <option value="{{ elem.id }}">{{ elem.title }}</option>
+                                                                {% endfor %}
+                                                            </select>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="bck-light-gray">Мяч</td>
+                                                        <td>
+                                                            <select name="ref_ball" class="form-control form-control-sm exs_edit_field" autocomplete="off" disabled="">
+                                                                <option value="">---</option>
+                                                                {% for elem in refs.exs_ball %}
+                                                                    <option value="{{ elem.id }}">{{ elem.title }}</option>
+                                                                {% endfor %}
+                                                            </select>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="bck-light-gray">Части тренировки</td>
+                                                        <td>
+                                                            <select name="ref_workout_part" class="form-control form-control-sm exs_edit_field" autocomplete="off" disabled="">
+                                                                <option value="">---</option>
+                                                                {% for elem in refs.exs_workout_part %}
+                                                                    <option value="{{ elem.id }}">{{ elem.title }}</option>
+                                                                {% endfor %}
+                                                            </select>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="bck-light-gray">Когнитивная нагрузка</td>
+                                                        <td>
+                                                            <select name="ref_cognitive_load" class="form-control form-control-sm exs_edit_field" autocomplete="off" disabled="">
+                                                                <option value="">---</option>
+                                                                {% for elem in refs.exs_cognitive_load %}
+                                                                    <option value="{{ elem.id }}">{{ elem.title }}</option>
+                                                                {% endfor %}
+                                                            </select>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="bck-light-gray">Возрастные категории</td>
+                                                        <td>
+                                                            <select name="ref_age_category" class="form-control form-control-sm exs_edit_field" autocomplete="off" disabled="">
+                                                                <option value="">---</option>
+                                                                {% for elem in refs.exs_age_category %}
+                                                                    <option value="{{ elem.id }}">{{ elem.title }}</option>
+                                                                {% endfor %}
+                                                            </select>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="bck-light-gray">Количество игроков</td>
+                                                        <td>
+                                                            <input name="players_amount" class="form-control form-control-sm exs_edit_field" type="text" value="" placeholder="" autocomplete="off" disabled="">
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="bck-light-gray">Источник</td>
+                                                        <td>
+                                                            <select name="ref_source" class="form-control form-control-sm exs_edit_field" autocomplete="off" disabled="">
+                                                                <option value="">---</option>
+                                                                {% for elem in refs.exs_source %}
+                                                                    <option value="{{ elem.id }}">{{ elem.title }}</option>
+                                                                {% endfor %}
+                                                            </select>
+                                                        </td>
+                                                    </tr>
+                                                    <tr class="bck-light-gray" style="height: 42.9px;"><td colspan="2"></td></tr>
+                                                    <tr>
+                                                        <td colspan="2">
+                                                            <div id="descriptionEditor" class="ckeditor" name="description_text"></div>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <div class="" id="splitCol_11">
+                                            <table class="table table-sm table-bordered" style="table-layout: fixed;">
+                                                <colgroup>
+                                                    <col span="1" style="width: 100%;">
+                                                </colgroup>
+                                                <tbody>
+                                                    <tr class="bck-light-gray">
+                                                        <td class="text-center font-weight-bold">Тренер</td>
+                                                    </tr>
+                                                    <tr class="" style="height: 42.9px;"><td colspan="1"></td></tr>
+                                                    <tr class="bck-light-gray">
+                                                        <td>
+                                                            <div class="row">
+                                                                <div class="col-9 text-center">
+                                                                    <span class="ml-custom-10">Дополнительные условия</span>
+                                                                </div>
+                                                                <div class="col-3 text-right">
+                                                                    <button class="btn btn-secondary btn-sm add-row" data-id="conditions" disabled="">
+                                                                        <i class="fa fa-plus" aria-hidden="true"></i>
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td data-id="td_conditions">
+                                                            <div class="row">
+                                                                <div class="col-10 pr-0">
+                                                                    <input name="conditions[]" class="form-control form-control-sm exs_edit_field" type="text" value="" placeholder="" autocomplete="off">
+                                                                </div>
+                                                                <div class="col-2 text-right">
+                                                                    <button class="btn btn-secondary btn-sm remove-row" disabled="">
+                                                                        <i class="fa fa-minus" aria-hidden="true"></i>
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr class="bck-light-gray">
+                                                        <td>
+                                                            <div class="row">
+                                                                <div class="col-9 text-center">
+                                                                    <span class="ml-custom-10">Тип нагрузки</span>
+                                                                </div>
+                                                                <div class="col-3 text-right">
+                                                                    <button class="btn btn-secondary btn-sm add-row" data-id="stress_type" disabled="">
+                                                                        <i class="fa fa-plus" aria-hidden="true"></i>
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td data-id="td_stress_type">
+                                                            <div class="row">
+                                                                <div class="col-10 pr-0">
+                                                                    <input name="stress_type[]" class="form-control form-control-sm exs_edit_field" type="text" value="" placeholder="" autocomplete="off">
+                                                                </div>
+                                                                <div class="col-2 text-right">
+                                                                    <button class="btn btn-secondary btn-sm remove-row" disabled="">
+                                                                        <i class="fa fa-minus" aria-hidden="true"></i>
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr class="bck-light-gray">
+                                                        <td>
+                                                            <div class="row">
+                                                                <div class="col-9 text-center">
+                                                                    <span class="ml-custom-10">Задачи / Направленность</span>
+                                                                </div>
+                                                                <div class="col-3 text-right">
+                                                                    <button class="btn btn-secondary btn-sm add-row" data-id="purposes" disabled="">
+                                                                        <i class="fa fa-plus" aria-hidden="true"></i>
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td data-id="td_purposes">
+                                                            <div class="row">
+                                                                <div class="col-10 pr-0">
+                                                                    <input name="purposes[]" class="form-control form-control-sm exs_edit_field" type="text" value="" placeholder="" autocomplete="off">
+                                                                </div>
+                                                                <div class="col-2 text-right">
+                                                                    <button class="btn btn-secondary btn-sm remove-row" disabled="">
+                                                                        <i class="fa fa-minus" aria-hidden="true"></i>
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr class="bck-light-gray">
+                                                        <td>
+                                                            <div class="row">
+                                                                <div class="col-9 text-center">
+                                                                    <span class="ml-custom-10">Коучинг</span>
+                                                                </div>
+                                                                <div class="col-3 text-right">
+                                                                    <button class="btn btn-secondary btn-sm add-row" data-id="coaching" disabled="">
+                                                                        <i class="fa fa-plus" aria-hidden="true"></i>
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td data-id="td_coaching">
+                                                            <div class="row">
+                                                                <div class="col-10 pr-0">
+                                                                    <input name="coaching[]" class="form-control form-control-sm exs_edit_field" type="text" value="" placeholder="" autocomplete="off">
+                                                                </div>
+                                                                <div class="col-2 text-right">
+                                                                    <button class="btn btn-secondary btn-sm remove-row" disabled="">
+                                                                        <i class="fa fa-minus" aria-hidden="true"></i>
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr class="bck-light-gray">
+                                                        <td>
+                                                            <div class="row">
+                                                                <div class="col-9 text-center">
+                                                                    <span class="ml-custom-10">Записи тренера</span>
+                                                                </div>
+                                                                <div class="col-3 text-right">
+                                                                    <button class="btn btn-secondary btn-sm add-row" data-id="notes" disabled="">
+                                                                        <i class="fa fa-plus" aria-hidden="true"></i>
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td data-id="td_notes">
+                                                            <div class="row">
+                                                                <div class="col-10 pr-0">
+                                                                    <input name="notes[]" class="form-control form-control-sm exs_edit_field" type="text" value="" placeholder="" autocomplete="off">
+                                                                </div>
+                                                                <div class="col-2 text-right">
+                                                                    <button class="btn btn-secondary btn-sm remove-row" disabled="">
+                                                                        <i class="fa fa-minus" aria-hidden="true"></i>
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="tab-pane fade" id="card_content" role="tabpanel" aria-labelledby="card_content-tab">
+                                    <div class="row">
+                                        <div class="col-4 p-1">
+                                            <svg id="" class="d-block bg-success mx-auto h-100" viewBox="0 0 600 400" height="100%" width="100%" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+                                                <image id="plane" x="0" y="0" data-width="600" data-height="400" width="100%" height="100%" href="/static/exercises/img/field.svg"></image>
+                                            </svg>
+                                            <p class="text-center">Рисунок 1</p>
+                                        </div>
+                                        <div class="col-4 p-1">
+                                            <img src="/static/exercises/img/video_player_temp.jpg" class="img-fluid h-100" alt="[ VIDEO ]">
+                                            <p class="text-center">Видео 1</p>
+                                        </div>
+                                        <div class="col-4 p-1">
+                                            <img src="/static/exercises/img/video_player_temp.jpg" class="img-fluid h-100" alt="[ VIDEO ]">
+                                            <p class="text-center">Анимация 1</p>
+                                        </div>
+                                    </div>
+                                    <div class="row my-4">
+                                        <div class="col-4 p-1">
+                                            <svg id="" class="d-block bg-success mx-auto h-100" viewBox="0 0 600 400" height="100%" width="100%" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+                                                <image id="plane" x="0" y="0" data-width="600" data-height="400" width="100%" height="100%" href="/static/exercises/img/field.svg"></image>
+                                            </svg>
+                                            <p class="text-center">Рисунок 2</p>
+                                        </div>
+                                        <div class="col-4 p-1">
+                                            <img src="/static/exercises/img/video_player_temp.jpg" class="img-fluid h-100" alt="[ VIDEO ]">
+                                            <p class="text-center">Видео 2</p>
+                                        </div>
+                                        <div class="col-4 p-1">
+                                            <img src="/static/exercises/img/video_player_temp.jpg" class="img-fluid h-100" alt="[ VIDEO ]">
+                                            <p class="text-center">Анимация 2</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="exerciseCardModal2" tabindex="-1" role="dialog" aria-labelledby="exerciseCardModalLbl" aria-hidden="true" data-exs="">
+            <div class="modal-dialog modal-xl" role="document" style="max-width: 90vw;">
+                {% include 'exercises/modules/exercise_card.html' %}
+            </div>
+        </div>
+
+        <div class="modal fade" id="exerciseCopyModal" tabindex="-1" role="dialog" aria-labelledby="exerciseCopyModalLbl" aria-hidden="true">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Выберите папку, в которую необходимо поместить упражнение</h5>
+                    </div>
+                    <div class="modal-body size-h-x" style="--h-x: 70vh; overflow-y: auto;">
+                    </div>
+                    <div class="modal-footer">
+                        <select name="copy_mode" class="form-control form-control-sm d-none" autocomplete="off">
+                            <option value="1">Копировать</option>
+                            <option value="2">Переместить</option>
+                        </select>
+                        <span class="info-text d-none">
+                            Перемещение возможно только внутри папок "Команда"
+                        </span>
+                        <button type="button" class="btn btn-primary btn-apply">Подтвердить</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="exerciseShareModal" tabindex="-1" role="dialog" aria-labelledby="exerciseShareModalLbl" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Поделиться упражнением</h5>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-12 create-block">
+                                <div class="row">
+                                    <div class="col-6">
+                                        Ссылка будет доступна до:
+                                    </div>
+                                    <div class="col-6">
+                                        <input class="form-control form-control-sm" name="date" type="date" value="" autocomplete="off" required="">
+                                    </div>
+                                </div>
+                                <div class="row mt-1">
+                                    <div class="col-12">
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="checkbox" id="checkboxScheme1" name="scheme_1" value="">
+                                            <label class="form-check-label" for="checkboxScheme1">Схема 1</label>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="checkbox" id="checkboxScheme2" name="scheme_2" value="">
+                                            <label class="form-check-label" for="checkboxScheme2">Схема 2</label>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="checkbox" id="checkboxVideo1" name="video_1" value="">
+                                            <label class="form-check-label" for="checkboxVideo1">Видео 1</label>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="checkbox" id="checkboxVideo2" name="video_2" value="">
+                                            <label class="form-check-label" for="checkboxVideo2">Видео 2</label>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="checkbox" id="checkboxAnimation1" name="animation_1" value="">
+                                            <label class="form-check-label" for="checkboxAnimation1">Анимация 1</label>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="checkbox" id="checkboxAnimation2" name="animation_2" value="">
+                                            <label class="form-check-label" for="checkboxAnimation2">Анимация 2</label>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="checkbox" id="checkboxDescription" name="description" value="">
+                                            <label class="form-check-label" for="checkboxDescription">Описание</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 link-block">
+                                <div class="row mt-3">
+                                    <div class="col-2">
+                                        Ссылка:
+                                    </div>
+                                    <div class="col-10 link-text">
+                                        <a href="" target="_blank">-</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary btn-share" data-link="">Поделиться</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {% include "exercises/modules/exercise_graphic_modal.html" %}
+
+    </main>
+{% endblock %}
+
+{% block custom_scripts %}
+    <script src="{% static 'ckeditor5-build-classic/ckeditor.js' %}"></script>
+    <!-- ckeditor5 languages: -->
+    <script src="{% static 'ckeditor5-build-classic/translations/ru.js' %}"></script>
+
+    <script src="{% static 'video/js/video_list.js' %}"></script>
+    <script src="{% static 'exercises/js/modules/exercise_counter.js' %}"></script>
+
+    <script src="{% static 'exercises/js/base_exercises.js' %}"></script>
+    <script src="{% static 'exercises/js/modules/graphic_modal.js' %}"></script>
+    <script src="{% static 'exercises/js/folder_list.js' %}"></script>
+    <script src="{% static 'exercises/js/modules/exercises_list.js' %}"></script>
+    <script src="{% static 'exercises/js/modules/exercise_card.js' %}"></script>
+{% endblock %}

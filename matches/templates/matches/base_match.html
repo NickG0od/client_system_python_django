@@ -1,0 +1,229 @@
+{% extends '../base/app_main.html' %}
+{% load i18n %}
+{% load static %}
+
+{% block title %}{% trans 'Match' %}{% endblock %}
+
+{% block custom_style %}
+    <link rel="stylesheet" href="{% static 'matches/css/style.css' %}">
+{% endblock %}
+
+{% block content %}
+
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert {% if message.tags %} {{ message.tags }} {% endif %} alert-warning alert-dismissible fade show" role="alert">
+                {{ message }}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+        {% endfor %}
+    {% endif %}
+
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card mb-0">
+                <div class="card-header py-2">
+                    <div class="row">
+                        <div class="col-12 btn-group">
+                            <a href="/matches" class="btn btn-sm btn-danger mx-2 size-max-w-x" style="--w-max-x: 35%;">Выйти</a>
+                            <button type="button" class="btn btn-sm btn-warning mx-2 size-max-w-x" id="editMatchAll" style="--w-max-x: 35%;">Редактировать</button>
+                            <button type="button" class="btn btn-sm btn-success mx-2 size-max-w-x d-none" id="saveMatchAll" style="--w-max-x: 35%;">Сохранить</button>
+                            <button type="button" class="btn btn-sm btn-secondary mx-2 size-max-w-x" style="--w-max-x: 10%;">
+                                <i class="fa fa-share-alt-square" aria-hidden="true"></i>
+                            </button>
+                            <button type="button" class="btn btn-sm btn-secondary mx-2 size-max-w-x" id="openVideoMatch" style="--w-max-x: 10%;">
+                                Видео
+                            </button>
+                            <button type="button" class="btn btn-sm btn-warning mx-2 size-max-w-x" id="editMatchModalOpen" style="--w-max-x: 10%;">
+                                <i class="fa fa-pencil" aria-hidden="true"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body scrollable-block py-1">
+                    <div class="row">
+                        <div class="col-12 content">
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="row">
+                                        <div class="col-12 btn-group">
+                                            <button class="btn btn-sm btn-outline-primary toggle-collapse active size-max-w-x mx-2" type="button" id="" data-toggle="collapse" data-target="#collapse-team" aria-expanded="false" aria-controls="collapseExample" style="--w-max-x:15%;">
+                                                Команда
+                                            </button>
+                                            <button class="btn btn-sm btn-outline-primary toggle-collapse size-max-w-x mx-2" type="button" id="" data-toggle="collapse" data-target="#collapse-opponent" aria-expanded="false" aria-controls="collapseExample" style="--w-max-x:15%;">
+                                                Оппонент
+                                            </button>
+                                            <div class="btn-group players-load size-max-w-x mx-2 d-none" style="--w-max-x:70%;">
+                                                <button type="button" class="btn btn-sm btn-primary mx-1" id="upPlayerInProtocol" title="Переместить вверх">
+                                                    <i class="fa fa-arrow-up" aria-hidden="true"></i>
+                                                </button>
+                                                <button type="button" class="btn btn-sm btn-primary mx-1" id="downPlayerInProtocol" title="Переместить вниз">
+                                                    <i class="fa fa-arrow-down" aria-hidden="true"></i>
+                                                </button>
+                                                <button type="button" class="btn btn-sm btn-success mx-1" data-toggle="modal" data-target="#addPlayerInProtocolModal" title="Добавить игрока">
+                                                    <i class="fa fa-plus" aria-hidden="true"></i>
+                                                </button>
+                                                <button type="button" class="btn btn-sm btn-danger mx-1" data-toggle="modal" data-target="#deletePlayerInProtocolModal" title="Удалить игрока">
+                                                    <i class="fa fa-minus" aria-hidden="true"></i>
+                                                </button>
+                                                <button type="button" class="btn btn-sm btn-warning mx-1" id="setCaptainToPlayer" title="Назначить выбранного игрока капитаном">
+                                                    K
+                                                </button>
+                                                <button type="button" class="btn btn-sm btn-warning mx-1" id="setGoalKeeperToPlayer" title="Назначить выбранного игрока вратарём">
+                                                    G.
+                                                </button>
+                                                <button type="button" class="btn btn-sm btn-light mx-1" id="setBlackBorder" title="Установить черту в списке (чёрный)">
+                                                    <i class="fa fa-table" aria-hidden="true" style="color: rgb(57, 57, 57);"></i>
+                                                </button>
+                                                <button type="button" class="btn btn-sm btn-light mx-1" id="setRedBorder" title="Установить черту в списке (красный)">
+                                                    <i class="fa fa-table" aria-hidden="true" style="color: rgb(255, 50, 50);"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row players-content">
+                                        <div class="col-12 collapse collapse-block show" id="collapse-team">
+                                            <div class="table-responsive">
+                                                <table id="team_players" class="table table-sm table-striped table-bordered dataTable protocol-players" style="width:100%">
+                                                    <thead>
+                                                        <tr>
+                                                            <th class="text-center"></th>
+                                                            <th class="text-center">№</th>
+                                                            <th class="text-center"></th>
+                                                            <th class="text-center">с</th>
+                                                            <th class="text-center">по</th>
+                                                            <th class="text-center">гол.</th>
+                                                            <th class="text-center">пен.</th>
+                                                            <th class="text-center">пас.</th>
+                                                            <th class="text-center">ж.к.</th>
+                                                            <th class="text-center">к.к.</th>
+                                                            <th class="text-center">оц.</th>
+                                                            <th class="text-center"><i class="fa fa-thumbs-o-down" aria-hidden="true"></i></th>
+                                                            <th class="text-center"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i></th>
+                                                            <th class="text-center">Видео</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody></tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                        <div class="col-12 collapse collapse-block" id="collapse-opponent">
+                                            <div class="table-responsive">
+                                                <table id="opponent_players" class="table table-sm table-striped table-bordered dataTable protocol-players" style="width:100%">
+                                                    <thead>
+                                                        <tr>
+                                                            <th class="text-center"></th>
+                                                            <th class="text-center">№</th>
+                                                            <th class="text-center"></th>
+                                                            <th class="text-center">с</th>
+                                                            <th class="text-center">по</th>
+                                                            <th class="text-center">гол.</th>
+                                                            <th class="text-center">пен.</th>
+                                                            <th class="text-center">пас.</th>
+                                                            <th class="text-center">ж.к.</th>
+                                                            <th class="text-center">к.к.</th>
+                                                            <th class="text-center">оц.</th>
+                                                            <th class="text-center"><i class="fa fa-thumbs-o-down" aria-hidden="true"></i></th>
+                                                            <th class="text-center"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i></th>
+                                                            <th class="text-center">Видео</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody></tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                        <div class="col-12 d-none">
+                                            <select class="form-control form-control-sm" id="protocolStatuses">
+                                                <option value="" style="color:black;" selected="">Играл</option>
+                                                {% for elem in refs.player_protocol_status %}
+                                                    {% if elem.is_red %}
+                                                        <option value="{{ elem.id }}" style="color:red;">{{ elem.title }}</option>
+                                                    {% else %}
+                                                        <option value="{{ elem.id }}" style="color:black;">{{ elem.title }}</option>
+                                                    {% endif %}
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {% include 'matches/modules/match_edit_modal.html' %}
+    {% include 'matches/modules/match_video_modal.html' %}
+
+    <div class="modal fade" id="addPlayerInProtocolModal" tabindex="-1" role="dialog" aria-labelledby="addPlayerInProtocolModalLbl" aria-modal="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">
+                        Добавить игрока
+                    </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">×</span>
+                    </button>
+                  </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-12">
+                            {% if teams_list %}
+                                <select id="teamListForAdd" class="form-control">
+                                    <option value="">{% trans 'No team selected' %}</option>
+                                    {% for team in teams_list %}
+                                        <option value="{{ team.id }}">{{ team.name }}</option>
+                                    {% empty %}
+                                        <option value="">{% trans 'No teams' %}</option>
+                                    {% endfor %}
+                                </select>
+                            {% endif %}
+                        </div>
+                        <div class="col-12 players-list-adding mt-2">
+                            <ul class="list-group"></ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" name="at_all">Добавить всех игроков</button>
+                    <button type="button" class="btn btn-primary" name="at_selected">Добавить выбранного</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Назад</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="deletePlayerInProtocolModal" tabindex="-1" role="dialog" aria-labelledby="deletePlayerInProtocolModalLbl" aria-modal="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">
+                        Удалить игрока
+                    </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">×</span>
+                    </button>
+                  </div>
+                <div class="modal-body">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" name="at_all">Удалить всех игроков</button>
+                    <button type="button" class="btn btn-warning" name="at_selected">Удалить выбранного</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Назад</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+{% block custom_scripts %}
+    <script src="{% static 'matches/js/modules/match_edit_modal.js' %}"></script>
+    <script src="{% static 'matches/js/modules/match_video_modal.js' %}"></script>
+    <script src="{% static 'matches/js/modules/match_protocol.js' %}"></script>
+    <script src="{% static 'matches/js/base_match.js' %}"></script>
+{% endblock %}

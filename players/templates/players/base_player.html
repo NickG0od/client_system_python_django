@@ -1,0 +1,579 @@
+{% extends '../base/app_main.html' %}
+{% load static %}
+
+{% block title %}Игрок{% endblock %}
+
+{% block custom_style %}
+    <link rel="stylesheet" href="{% static 'players/css/style.css' %}">
+{% endblock %}
+
+{% block content %}
+    <main class="">
+        <div class="row">
+            <div class="col-12">
+                <div class="card mb-1">
+                    <div class="card-body p-1">
+                        <div class="card-inside">
+                            <div class="up-block-content">
+                                <div class="row">
+                                    <div class="col-12 btn-group">
+                                        <button type="button" class="btn btn-outline-primary btn-sm size-max-w-x" id="exitCard" style="--w-max-x:15%;">
+                                            Команда
+                                        </button>
+                                        <button type="button" class="btn btn-success btn-sm size-max-w-x" id="" style="--w-max-x:15%;" disabled>
+                                            Карточка игрока
+                                        </button>
+                                        <button type="button" class="btn btn-outline-secondary btn-sm size-max-w-x" id="prevTeam" title="Пред. команда" style="--w-max-x:5%;">
+                                            <i class="fa fa-arrow-left" aria-hidden="true"></i>
+                                        </button>
+                                        <button type="button" class="btn btn-outline-dark btn-sm size-max-w-x" id="currentTeam" disabled style="--w-max-x:25%;">
+                                            Команда
+                                        </button>
+                                        <button type="button" class="btn btn-outline-secondary btn-sm size-max-w-x" id="nextTeam" title="След. команда" style="--w-max-x:5%;">
+                                            <i class="fa fa-arrow-right" aria-hidden="true"></i>
+                                        </button>
+                                        <button type="button" class="btn btn-outline-success btn-sm b-add-off b-edit-off size-max-w-x" id="addPlayer" title="Добавить игрока" style="--w-max-x:5%;">
+                                            <span class="icon-custom icon--plus mx-1" style="--i-w: 1.3em; --i-h: 1.3em;"></span>
+                                        </button>
+                                        <button type="button" class="btn btn-outline-success btn-sm b-add-on b-edit-on size-max-w-x d-none" id="savePlayer">
+                                            Сохранить
+                                        </button>
+                                        <button type="button" class="btn btn-outline-primary btn-sm b-add-off b-edit-off size-max-w-x" id="editPlayer" style="--w-max-x:15%;">
+                                            Редактировать
+                                        </button>
+                                        <button type="button" class="btn btn-outline-warning btn-sm b-add-on b-edit-on size-max-w-x d-none" id="cancelPlayer">
+                                            Отменить
+                                        </button>
+                                        <button type="button" class="btn btn-outline-danger btn-sm b-add-off b-edit-on size-max-w-x d-none" id="deletePlayer">
+                                            Удалить
+                                        </button>
+                                        <button type="button" class="btn btn-outline-primary btn-sm size-max-w-x" id="cardSettings" style="--w-max-x:15%;">
+                                            Настройки
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="row d-flex justify-content-between">
+                                    <div class="col-3 pull-left">
+                                        <div class="row">
+                                            <!-- <div class="col-12 btn-group">
+                                                <button type="button" class="btn btn-secondary btn-sm size-max-w-x" id="prevTeam" title="Пред. команда" style="--w-max-x:10%;">
+                                                    <i class="fa fa-arrow-left" aria-hidden="true"></i>
+                                                </button>
+                                                <button type="button" class="btn btn-dark btn-sm size-max-w-x" id="currentTeam" disabled style="--w-max-x:80%;">
+                                                    Команда
+                                                </button>
+                                                <button type="button" class="btn btn-secondary btn-sm size-max-w-x" id="nextTeam" title="След. команда" style="--w-max-x:10%;">
+                                                    <i class="fa fa-arrow-right" aria-hidden="true"></i>
+                                                </button>
+                                            </div> -->
+                                        </div>
+                                    </div>
+                                    <div class="col"></div>
+                                    <div class="col-3 pull-right">
+                                        <div class="row">
+                                            <!-- <div class="col-12 btn-group">
+                                                <button type="button" class="btn btn-success btn-sm b-add-off b-edit-off" id="addPlayer" title="Добавить игрока">
+                                                    <span class="icon-custom icon--plus mx-1" style="--i-w: 1.3em; --i-h: 1.3em;"></span>
+                                                </button>
+                                                <button type="button" class="btn btn-success btn-sm b-add-on b-edit-on d-none" id="savePlayer">
+                                                    Сохранить
+                                                </button>
+                                                <button type="button" class="btn btn-warning btn-sm b-add-off b-edit-off" id="editPlayer">
+                                                    Редактировать
+                                                </button>
+                                                <button type="button" class="btn btn-warning btn-sm b-add-on b-edit-on d-none" id="cancelPlayer">
+                                                    Отменить
+                                                </button>
+                                                <button type="button" class="btn btn-danger btn-sm b-add-off b-edit-on d-none" id="deletePlayer">
+                                                    Удалить
+                                                </button>
+                                                <button type="button" class="btn btn-danger btn-sm b-add-off b-edit-off" id="exitCard">
+                                                    Выйти
+                                                </button>
+                                            </div> -->
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="players-content mt-2">
+                                <div class="row mx-0">
+                                    <div class="col-3 px-0">
+                                        <div class="row cnt-left-block">
+                                            <div class="col-12">
+                                                <table class="table table-sm table-bordered" id="players">
+                                                    <tbody>
+                                                        {% for player in players %}
+                                                        <tr class="player-row text-center" data-id="{{ player.id }}">
+                                                            <td>{{ forloop.counter }}</td>
+                                                            <td>{{ player.surname }}</td>
+                                                            <td>{{ player.name }}</td>
+                                                        </tr>
+                                                        {% endfor %}
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col cnt-center-block">
+                                        <div class="row center-content" data-id="card">
+                                            <div class="col-3">
+                                                <div class="card card-i justify-content-center" style="height: 32vh;">
+                                                    <img class="card-img img-photo" src="#" alt="" onerror=this.src="/static/players/img/player-avatar.png" style="max-height: 100%;">
+                                                </div>
+                                                <div class="card card-i justify-content-center" style="height: 48vh;">
+                                                    <img class="card-img img-field h-100" src="#" alt="" onerror=this.src="/static/players/img/player_plane.svg">
+                                                </div>
+                                            </div>
+                                            <div class="col-9">
+                                                <table class="table table-sm table-bordered card-content">
+                                                    <tbody>
+                                                        <col style="width: 40%;" />
+                                                        <col style="width: 60%;" />
+                                                        <tr class="">
+                                                            <td>Фамилия *</td>
+                                                            <td>
+                                                                <input name="surname" class="form-control form-control-sm edit-field" type="text" value="" placeholder="---" autocomplete="off" required>
+                                                            </td>
+                                                        </tr>
+                                                        <tr class="">
+                                                            <td>Имя *</td>
+                                                            <td>
+                                                                <input name="name" class="form-control form-control-sm edit-field" type="text" value="" placeholder="---" autocomplete="off" required>
+                                                            </td>
+                                                        </tr>
+                                                        <tr class="">
+                                                            <td>Отчество</td>
+                                                            <td>
+                                                                <input name="patronymic" class="form-control form-control-sm edit-field" type="text" value="" placeholder="---" autocomplete="off">
+                                                            </td>
+                                                        </tr>
+                                                        <tr class="">
+                                                            <td>Гражданство</td>
+                                                            <td>
+                                                                <input name="citizenship" class="form-control form-control-sm edit-field" type="text" value="" placeholder="---" autocomplete="off">
+                                                            </td>
+                                                        </tr>
+                                                        <tr class="">
+                                                            <td>Клуб (откуда)</td>
+                                                            <td>
+                                                                <input name="club_from" class="form-control form-control-sm edit-field" type="text" value="" placeholder="---" autocomplete="off">
+                                                            </td>
+                                                        </tr>
+                                                        <tr class="">
+                                                            <td>Рост</td>
+                                                            <td>
+                                                                <input name="growth" class="form-control form-control-sm edit-field" type="number" min="1" max="1000" value="" placeholder="---" autocomplete="off">
+                                                            </td>
+                                                        </tr>
+                                                        <tr class="">
+                                                            <td>Вес</td>
+                                                            <td>
+                                                                <input name="weight" class="form-control form-control-sm edit-field" type="number" min="1" max="1000" value="" placeholder="---" autocomplete="off">
+                                                            </td>
+                                                        </tr>
+                                                        <tr class="">
+                                                            <td>Игровой №</td>
+                                                            <td>
+                                                                <input name="game_num" class="form-control form-control-sm edit-field" type="number" min="0" max="100" value="" placeholder="---" autocomplete="off">
+                                                            </td>
+                                                        </tr>
+                                                        <tr class="">
+                                                            <td>Дата рождения</td>
+                                                            <td>
+                                                                <input name="birthsday" class="form-control form-control-sm edit-field" type="date" value="" placeholder="---" autocomplete="off">
+                                                            </td>
+                                                        </tr>
+                                                        <tr class="">
+                                                            <td>Статус команды</td>
+                                                            <td>
+                                                                <select name="ref_team_status" class="form-control form-control-sm edit-field" autocomplete="off">
+                                                                    <option value="">---</option>
+                                                                    {% for elem in refs.player_team_status %}
+                                                                        <option value="{{ elem.id }}">{{ elem.title }}</option>
+                                                                    {% endfor %}
+                                                                </select>
+                                                            </td>
+                                                        </tr>
+                                                        <tr class="">
+                                                            <td>Команда</td>
+                                                            <td>
+                                                                <select name="team" class="form-control form-control-sm edit-field" autocomplete="off">
+                                                                    <option value="">---</option>
+                                                                    {% for elem in teams_list %}
+                                                                        <option value="{{ elem.id }}">{{ elem.name }}</option>
+                                                                    {% endfor %}
+                                                                </select>
+                                                            </td>
+                                                        </tr>
+                                                        <tr class="">
+                                                            <td>Статус игрока</td>
+                                                            <td>
+                                                                <select name="ref_player_status" class="form-control form-control-sm edit-field" autocomplete="off">
+                                                                    <option value="">---</option>
+                                                                    {% for elem in refs.player_player_status %}
+                                                                        <option value="{{ elem.id }}">{{ elem.title }}</option>
+                                                                    {% endfor %}
+                                                                </select>
+                                                            </td>
+                                                        </tr>
+                                                        <tr class="">
+                                                            <td>Текущий уровень</td>
+                                                            <td>
+                                                                <select name="ref_level" class="form-control form-control-sm edit-field" autocomplete="off">
+                                                                    <option value="">---</option>
+                                                                    {% for elem in refs.player_level %}
+                                                                        <option value="{{ elem.id }}">{{ elem.title }}</option>
+                                                                    {% endfor %}
+                                                                </select>
+                                                            </td>
+                                                        </tr>
+                                                        <tr class="">
+                                                            <td>Позиция</td>
+                                                            <td>
+                                                                <select name="ref_position" class="form-control form-control-sm edit-field" autocomplete="off">
+                                                                    <option value="">---</option>
+                                                                    {% for elem in refs.player_position %}
+                                                                        <option value="{{ elem.id }}">{{ elem.title }}</option>
+                                                                    {% endfor %}
+                                                                </select>
+                                                            </td>
+                                                        </tr>
+                                                        <tr class="">
+                                                            <td>Нога</td>
+                                                            <td>
+                                                                <select name="ref_foot" class="form-control form-control-sm edit-field" autocomplete="off">
+                                                                    <option value="">---</option>
+                                                                    {% for elem in refs.player_foot %}
+                                                                        <option value="{{ elem.id }}">{{ elem.title }}</option>
+                                                                    {% endfor %}
+                                                                </select>
+                                                            </td>
+                                                        </tr>
+                                                        <tr class="">
+                                                            <td>Пришёл</td>
+                                                            <td>
+                                                                <input name="come" class="form-control form-control-sm edit-field" type="date" value="" placeholder="---" autocomplete="off">
+                                                            </td>
+                                                        </tr>
+                                                        <tr class="">
+                                                            <td>Ушёл</td>
+                                                            <td>
+                                                                <input name="leave" class="form-control form-control-sm edit-field" type="date" value="" placeholder="---" autocomplete="off">
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                        <div class="row center-content" data-id="characteristics">
+                                            <span class="badge badge-primary">Характеристики</span>
+                                            <span class="badge badge-warning ml-1" title="Редактировать" id="editCharacteristicsRows">
+                                                <i class="fa fa-pencil" aria-hidden="true"></i>
+                                            </span>
+                                            <div class="table-responsive">
+                                                <table id="playerCharacteristicsTable" class="table table-sm table-bordered" style="table-layout: fixed;">
+                                                    <colgroup>
+                                                        <col span="1" style="width: 30%;">
+                                                        <col span="1" style="width: 15%;">
+                                                        <col span="1" style="width: 15%;">
+                                                        <col span="1" style="width: 40%;">
+                                                    </colgroup>
+                                                    <thead>
+                                                        <th class="text-center">
+                                                            Тип
+                                                            <button id="toggleCharacteristicsChildRows" type="button" class="btn btn-sm btn-outline-secondary"><i class="fe fe-text-align-left" aria-hidden="true"></i></button>
+                                                        </th>
+                                                        <th class="text-center">
+                                                            Оценка
+                                                        </th>
+                                                        <th class="text-center">
+                                                            Изменение
+                                                        </th>
+                                                        <th class="text-center">
+                                                            Примечания
+                                                        </th>
+                                                    </thead>
+                                                    <tbody>
+                    
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                        <div class="row center-content" data-id="questionnaire">
+                                            <span class="badge badge-primary">Анкета</span>
+                                            <span class="badge badge-warning ml-1" title="Редактировать" id="editQuestionnaireRows">
+                                                <i class="fa fa-pencil" aria-hidden="true"></i>
+                                            </span>
+                                            <div class="table-responsive">
+                                                <table id="playerQuestionnaireTable" class="table table-sm table-bordered" style="table-layout: fixed;">
+                                                    <colgroup>
+                                                        <col span="1" style="width: 30%;">
+                                                        <col span="1" style="width: 70%;">
+                                                    </colgroup>
+                                                    <tbody>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-2 px-0">
+                                        <div class="cnt-right-block">
+                                            <div class="d-flex justify-content-center mb-3">
+                                                <!-- <button type="button" class="btn btn-secondary btn-sm btn-block" id="cardSettings">Настройки</button> -->
+                                            </div>
+                                            <div class="card-sections">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="showImgPhoto" tabindex="-1" role="dialog" aria-labelledby="showImgPhotoLbl" aria-hidden="true">
+            <div class="modal-dialog modal-lg" role="document" style="max-width: 70vw !important;">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <div class="photo-block d-flex justify-content-center" style="height: 70vh;">
+                            <div class="h-100" style="width: 40vw;">
+
+                            </div>
+                        </div>
+                        <div class="data-block">
+                            <input type="file" id="fileImgPhoto" name="file" accept=".jpg, .jpeg, .png, .gif, .bmp">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Назад</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="cardSectionsEdit" tabindex="-1" role="dialog" aria-labelledby="cardSectionsEditLbl" aria-hidden="true">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Разделы в правой колонке:</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                      </div>
+                    <div class="modal-body">
+                        <div class="info">
+                            <p>
+                                <a class="btn btn-sm btn-outline-warning" data-toggle="collapse" href="#collapseSectionsInfo" role="button" aria-expanded="false" aria-controls="collapseSectionsInfo">
+                                    Подсказка: Текст.ID
+                                </a>
+                            </p>
+                            <div class="collapse" id="collapseSectionsInfo">
+                                <div class="card card-body">
+                                    <p class="m-0">card -> Карточка</p>
+                                    <p class="m-0">questionnaire -> Анкета</p>
+                                    <p class="m-0">characteristics -> Характеристики</p>
+                                    <p class="m-0">social_network -> Соц. сети</p>
+                                    <p class="m-0">notes -> Записи</p>
+                                    <p class="m-0">height_weight -> Рост / вес</p>
+                                    <p class="m-0">statistics -> Статистика</p>
+                                    <p class="m-0">analytics -> Аналитика</p>
+                                    <p class="m-0">matches_gps -> Игры (GPS)</p>
+                                    <p class="m-0">trainings_gps -> Тренировки (GPS)</p>
+                                    <p class="m-0">matches -> Игры</p>
+                                    <p class="m-0">video -> Видео</p>
+                                    <p class="m-0">tests -> Тесты</p>
+                                    <p class="m-0">medicine -> Медицина</p>
+                                    <p class="m-0">documents -> Документы</p>
+                                    <p class="m-0">newsletters -> Рассылки</p>
+                                    <p class="m-0">payment -> Оплата</p>
+                                    <p class="m-0">parents -> Родители</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="btns-control">
+                            <span class="badge badge-success section-add" title="Добавить элемент">
+                                <i class="fa fa-plus" aria-hidden="true"></i>
+                            </span>
+                            <span class="badge badge-secondary section-edit" title="Изменить элемент">
+                                <i class="fa fa-pencil" aria-hidden="true"></i>
+                            </span>
+                            <span class="badge badge-danger section-delete" title="Удалить элемент">
+                                <i class="fa fa-trash-o" aria-hidden="true"></i>
+                            </span>
+                            <span class="badge badge-info section-up" title="Move up">
+                                <i class="fa fa-arrow-up" aria-hidden="true"></i>
+                            </span>
+                            <span class="badge badge-info section-down" title="Move down">
+                                <i class="fa fa-arrow-down" aria-hidden="true"></i>
+                            </span>
+                        </div>
+                        <div class="sections">
+                            <table class="table table-sm table-bordered" style="table-layout: fixed;">
+                                <colgroup>
+                                    <col span="1" style="width: 5%;">
+                                    <col span="1" style="width: 60%;">
+                                    <col span="1" style="width: 20%;">
+                                    <col span="1" style="width: 15%;">
+                                </colgroup>
+                                <thead>
+                                    <th class="text-center">
+                                    </th>
+                                    <th class="text-center">
+                                        Название
+                                    </th>
+                                    <th class="text-center">
+                                        Текст.ID
+                                    </th>
+                                    <th class="text-center">
+                                        Видимость
+                                    </th>
+                                </thead>
+                                <tbody class="sections-body">
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" name="save">Сохранить</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Назад</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="characteristicsRowsEdit" tabindex="-1" role="dialog" aria-labelledby="characteristicsRowsEditLbl" aria-hidden="true">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Характеристики (строки):</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                      </div>
+                    <div class="modal-body">
+                        <div class="btns-control-container">
+                            <span class="badge badge-primary badge-pill characteristics-user" title="">
+                                Пользовательские
+                            </span>
+                            <span class="badge badge-warning characteristics-nfb" title="">
+                                NFB
+                            </span>
+                            <div class="btns-control">
+                                <span class="badge badge-success characteristics-add" title="Добавить элемент">
+                                    <i class="fa fa-plus" aria-hidden="true"></i>
+                                </span>
+                                <span class="badge badge-secondary characteristics-edit" title="Изменить элемент">
+                                    <i class="fa fa-pencil" aria-hidden="true"></i>
+                                </span>
+                                <span class="badge badge-danger characteristics-delete" title="Удалить элемент">
+                                    <i class="fa fa-trash-o" aria-hidden="true"></i>
+                                </span>
+                                <span class="badge badge-info characteristics-up" title="Move up">
+                                    <i class="fa fa-arrow-up" aria-hidden="true"></i>
+                                </span>
+                                <span class="badge badge-info characteristics-down" title="Move down">
+                                    <i class="fa fa-arrow-down" aria-hidden="true"></i>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="characteristics">
+                            <table class="table table-sm table-bordered" style="table-layout: fixed;">
+                                <colgroup>
+                                    <col span="1" style="width: 5%;">
+                                    <col span="1" style="width: 80%;">
+                                    <col span="1" style="width: 15%;">
+                                </colgroup>
+                                <thead>
+                                    <th class="text-center">
+                                    </th>
+                                    <th class="text-center">
+                                        Название
+                                    </th>
+                                    <th class="text-center">
+                                        Видимость
+                                    </th>
+                                </thead>
+                                <tbody class="characteristics-body">
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" name="save" data-nfb="0">Сохранить</button>
+                        <button type="button" class="btn btn-info d-none" name="copy">Скопировать</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Назад</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="questionnaireRowsEdit" tabindex="-1" role="dialog" aria-labelledby="questionnaireRowsEditLbl" aria-hidden="true">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Анкета (строки):</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                      </div>
+                    <div class="modal-body">
+                        <div class="btns-control-container">
+                            <div class="btns-control">
+                                <span class="badge badge-success questionnaire-add" title="Добавить элемент">
+                                    <i class="fa fa-plus" aria-hidden="true"></i>
+                                </span>
+                                <span class="badge badge-secondary questionnaire-edit" title="Изменить элемент">
+                                    <i class="fa fa-pencil" aria-hidden="true"></i>
+                                </span>
+                                <span class="badge badge-danger questionnaire-delete" title="Удалить элемент">
+                                    <i class="fa fa-trash-o" aria-hidden="true"></i>
+                                </span>
+                                <span class="badge badge-info questionnaire-up" title="Move up">
+                                    <i class="fa fa-arrow-up" aria-hidden="true"></i>
+                                </span>
+                                <span class="badge badge-info questionnaire-down" title="Move down">
+                                    <i class="fa fa-arrow-down" aria-hidden="true"></i>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="questionnaires">
+                            <table class="table table-sm table-bordered" style="table-layout: fixed;">
+                                <colgroup>
+                                    <col span="1" style="width: 5%;">
+                                    <col span="1" style="width: 80%;">
+                                    <col span="1" style="width: 15%;">
+                                </colgroup>
+                                <thead>
+                                    <th class="text-center">
+                                    </th>
+                                    <th class="text-center">
+                                        Название
+                                    </th>
+                                    <th class="text-center">
+                                        Видимость
+                                    </th>
+                                </thead>
+                                <tbody class="questionnaires-body">
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" name="save" data-nfb="0">Сохранить</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Назад</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </main>
+{% endblock %}
+
+{% block custom_scripts %}
+    <script src="{% static 'players/js/base_player.js' %}"></script>
+{% endblock %}

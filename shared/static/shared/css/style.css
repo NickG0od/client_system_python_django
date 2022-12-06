@@ -1,0 +1,17 @@
+@media screen and (min-width: 481px) {
+    .c-block {
+        margin-left: 10vw;
+        margin-right: 10vw;
+    }
+}
+
+
+.carousel-control-custom {
+    color: black !important;
+    font-size: 2rem !important;
+}
+
+.px-custom-0 {
+    padding-left: 4rem !important;
+    padding-right: 4rem !important;
+}

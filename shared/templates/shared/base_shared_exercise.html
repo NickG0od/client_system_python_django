@@ -1,0 +1,167 @@
+{% extends '../base/app_main.html' %}
+{% load static %}
+
+{% block title %}Упражнение{% endblock %}
+
+{% block custom_style %}
+    <link rel="stylesheet" href="{% static 'shared/css/style.css' %}">
+{% endblock %}
+
+{% block content %}
+    <main class="">
+        <div class="row">
+            <div class="col-12">
+                <div class="card mb-1 mt-4 c-block">
+                    <div class="card-body p-1">
+                        <div class="card-inside">
+                            <div class="row">
+                                <div class="col-sm-12 col-md-6">
+                                    <div class="row">
+                                        <div class="col-12 title-block text-center">
+                                            {{ exercise.title }}
+                                        </div>
+                                        {% if options.description == 1 %}
+                                        <div class="col-12 description-block mt-2">
+                                            <div class="resizeable-block">
+                                                <div id="descriptionEditor" class="ckeditor w-100" name="description_text" data-value="{{ exercise.description }}">
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-md-6">
+                                    <div class="row" style="overflow-y: auto;">
+                                        <div class="col-12 scheme-block">
+                                            <div id="carouselSchema" class="carousel slide" data-ride="carousel" data-interval="false">
+                                                <div class="carousel-inner">
+                                                    {% if options.scheme_1 == 1 %}
+                                                    <div class="carousel-item active px-custom-0">
+                                                        {% autoescape off %}
+                                                        {{ exercise.scheme_data.0 }}
+                                                        {% endautoescape %}
+                                                    </div>
+                                                    {% endif %}
+                                                    {% if options.scheme_2 == 1 %}
+                                                    <div class="carousel-item {% if options.scheme_1 != 1 %}active{% endif %} px-custom-0">
+                                                        {% autoescape off %}
+                                                        {{ exercise.scheme_data.1 }}
+                                                        {% endautoescape %}
+                                                    </div>
+                                                    {% endif %}
+                                                </div>
+                                                {% if options.scheme_1 == 1 and options.scheme_2 == 1 %}
+                                                <a class="carousel-control-prev carousel-control-custom" href="#carouselSchema" role="button" data-slide="prev">
+                                                    <i class="fa fa-arrow-circle-o-left" aria-hidden="true"></i>
+                                                    <span class="sr-only">Previous</span>
+                                                </a>
+                                                <a class="carousel-control-next carousel-control-custom" href="#carouselSchema" role="button" data-slide="next">
+                                                    <i class="fa fa-arrow-circle-o-right" aria-hidden="true"></i>
+                                                    <span class="sr-only">Next</span>
+                                                </a>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                        <div class="col-12 video-block">
+                                            <div id="carouselVideo" class="carousel slide mt-2" data-ride="carousel" data-interval="false">
+                                                <div class="carousel-inner">
+                                                    {% if options.video_1 == 1 %}
+                                                    <div class="carousel-item active px-custom-0">
+                                                        {% if exercise.video_1.links.nftv and exercise.video_1.links.nftv != "" %}
+                                                            <video id="video-player-0" class="video-js resize-block" poster="https://213.108.4.28/video/poster/{{ exercise.video_1.links.nftv }}">
+                                                                <source src="https://213.108.4.28/video/player/{{ exercise.video_1.links.nftv }}" type="video/mp4" />
+                                                            </video>
+                                                        {% else %}
+                                                            <video id="video-player-0" class="video-js resize-block" poster="">
+                                                                <source src="https://www.youtube.com/watch?v={{ exercise.video_1.links.youtube }}" type="video/youtube" />
+                                                            </video>
+                                                        {% endif %}
+                                                    </div>
+                                                    {% endif %}
+                                                    {% if options.video_2 == 1 %}
+                                                    <div class="carousel-item {% if options.video_1 != 1 %}active{% endif %} px-custom-0">
+                                                        {% if exercise.video_2.links.nftv and exercise.video_2.links.nftv != "" %}
+                                                            <video id="video-player-1" class="video-js resize-block" poster="https://213.108.4.28/video/poster/{{ exercise.video_2.links.nftv }}">
+                                                                <source src="https://213.108.4.28/video/player/{{ exercise.video_2.links.nftv }}" type="video/mp4" />
+                                                            </video>
+                                                        {% else %}
+                                                            <video id="video-player-1" class="video-js resize-block" poster="">
+                                                                <source src="https://www.youtube.com/watch?v={{ exercise.video_2.links.youtube }}" type="video/youtube" />
+                                                            </video>
+                                                        {% endif %}
+                                                    </div>
+                                                    {% endif %}
+                                                </div>
+                                                {% if options.video_1 == 1 and options.video_2 == 1 %}
+                                                <a class="carousel-control-prev carousel-control-custom" href="#carouselSchema" role="button" data-slide="prev">
+                                                    <i class="fa fa-arrow-circle-o-left" aria-hidden="true"></i>
+                                                    <span class="sr-only">Previous</span>
+                                                </a>
+                                                <a class="carousel-control-next carousel-control-custom" href="#carouselSchema" role="button" data-slide="next">
+                                                    <i class="fa fa-arrow-circle-o-right" aria-hidden="true"></i>
+                                                    <span class="sr-only">Next</span>
+                                                </a>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                        <div class="col-12 animation-block">
+                                            <div id="carouselAnim" class="carousel slide mt-2" data-ride="carousel" data-interval="false">
+                                                <div class="carousel-inner">
+                                                    {% if options.animation_1 == 1 %}
+                                                    <div class="carousel-item active px-custom-0">
+                                                        {% if exercise.animation_1.links.nftv and exercise.animation_1.links.nftv != "" %}
+                                                            <video id="video-player-2" class="video-js resize-block" poster="https://213.108.4.28/video/poster/{{ exercise.animation_1.links.nftv }}">
+                                                                <source src="https://213.108.4.28/video/player/{{ exercise.animation_1.links.nftv }}" type="video/mp4" />
+                                                            </video>
+                                                        {% else %}
+                                                            <video id="video-player-2" class="video-js resize-block" poster="">
+                                                                <source src="https://www.youtube.com/watch?v={{ exercise.animation_1.links.youtube }}" type="video/youtube" />
+                                                            </video>
+                                                        {% endif %}
+                                                    </div>
+                                                    {% endif %}
+                                                    {% if options.animation_2 == 1 %}
+                                                    <div class="carousel-item {% if options.animation_1 != 1 %}active{% endif %} px-custom-0">
+                                                        {% if exercise.animation_2.links.nftv and exercise.animation_2.links.nftv != "" %}
+                                                            <video id="video-player-3" class="video-js resize-block" poster="https://213.108.4.28/video/poster/{{ exercise.animation_2.links.nftv }}">
+                                                                <source src="https://213.108.4.28/video/player/{{ exercise.animation_2.links.nftv }}" type="video/mp4" />
+                                                            </video>
+                                                        {% else %}
+                                                            <video id="video-player-3" class="video-js resize-block" poster="">
+                                                                <source src="https://www.youtube.com/watch?v={{ exercise.animation_2.links.youtube }}" type="video/youtube" />
+                                                            </video>
+                                                        {% endif %}
+                                                    </div>
+                                                    {% endif %}
+                                                </div>
+                                                {% if options.animation_1 == 1 and options.animation_2 == 1 %}
+                                                <a class="carousel-control-prev carousel-control-custom" href="#carouselSchema" role="button" data-slide="prev">
+                                                    <i class="fa fa-arrow-circle-o-left" aria-hidden="true"></i>
+                                                    <span class="sr-only">Previous</span>
+                                                </a>
+                                                <a class="carousel-control-next carousel-control-custom" href="#carouselSchema" role="button" data-slide="next">
+                                                    <i class="fa fa-arrow-circle-o-right" aria-hidden="true"></i>
+                                                    <span class="sr-only">Next</span>
+                                                </a>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+{% endblock %}
+
+{% block custom_scripts %}
+    <script src="{% static 'ckeditor5-build-classic/ckeditor.js' %}"></script>
+    <!-- ckeditor5 languages: -->
+    <script src="{% static 'ckeditor5-build-classic/translations/ru.js' %}"></script>
+
+    <script src="{% static 'shared/js/base_shared_exercise.js' %}"></script>
+{% endblock %}

@@ -1,0 +1,129 @@
+.size-w-x {
+    width: var(--w-x) !important;
+}
+.size-min-w-x {
+    min-width: var(--w-min-x) !important;
+}
+.size-max-w-x {
+    max-width: var(--w-max-x) !important;
+}
+.size-h-x {
+    height: var(--h-x) !important;
+}
+.size-min-h-x {
+    min-height: var(--h-min-x) !important;
+}
+.size-max-h-x {
+    max-height: var(--h-max-x) !important;
+}
+
+
+
+.card-inside {
+    height: 88vh !important;
+}
+
+.player-row {
+    background-color: #ececec;
+}
+.player-row:hover {
+    background-color: #efefefd6;
+}
+.player-row.selected {
+    background-color: #d4d4d4;
+    border-color: #b9b8b8;
+    color: #5a6268;
+    border: 2px solid rgb(100, 100, 100) !important;
+}
+
+.cnt-left-block {
+    height: 80vh !important;
+    overflow-y: auto;
+}
+.cnt-center-block {
+    height: 80vh !important;
+    overflow-y: auto;
+}
+.cnt-right-block {
+    height: 80vh !important;
+    overflow-y: auto;
+}
+
+.edit-field.req-empty {
+    border-color: red;
+}
+
+.card-i:hover {
+    border: 2px solid black;
+    opacity: 0.9;
+}
+
+
+.section-elem:hover {
+    background-color: rgb(240, 240, 240);
+    border: 2px solid rgb(100, 100, 100) !important;
+}
+.section-elem.parent {
+    background-color: aliceblue;
+}
+.section-elem.selected {
+    background-color: #d4d4d4;
+    color: #5a6268;
+    border: 2px solid rgb(100, 100, 100) !important;
+}
+.section-toggle.selected {
+    background-color: #b1d0e3 !important;
+}
+
+
+.column-elem:hover {
+    background-color: rgb(240, 240, 240);
+    border: 2px solid rgb(100, 100, 100) !important;
+}
+.column-elem.parent {
+    background-color: aliceblue;
+}
+.column-elem.selected {
+    background-color: #d4d4d4;
+    color: #5a6268;
+    border: 2px solid rgb(100, 100, 100) !important;
+}
+
+
+.characteristic-elem:hover {
+    background-color: rgb(240, 240, 240);
+    border: 2px solid rgb(100, 100, 100) !important;
+}
+.characteristic-elem.parent {
+    background-color: aliceblue;
+}
+.characteristic-elem.selected {
+    background-color: #d4d4d4;
+    color: #5a6268;
+    border: 2px solid rgb(100, 100, 100) !important;
+}
+
+
+.star-checked {
+    color: orange;
+}
+
+
+.questionnaire-elem:hover {
+    background-color: rgb(240, 240, 240);
+    border: 2px solid rgb(100, 100, 100) !important;
+}
+.questionnaire-elem.parent {
+    background-color: aliceblue;
+}
+.questionnaire-elem.selected {
+    background-color: #d4d4d4;
+    color: #5a6268;
+    border: 2px solid rgb(100, 100, 100) !important;
+}
+
+
+th.dt-vertical-center, td.dt-vertical-center {
+    vertical-align: middle !important;
+}
+

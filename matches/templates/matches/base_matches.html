@@ -1,0 +1,281 @@
+{% extends '../base/app_main.html' %}
+{% load i18n %}
+{% load static %}
+
+{% block title %}{% trans 'Matches' %}{% endblock %}
+
+{% block custom_style %}
+    <link rel="stylesheet" href="{% static 'matches/css/style.css' %}">
+{% endblock %}
+
+{% block content %}
+
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert {% if message.tags %} {{ message.tags }} {% endif %} alert-warning alert-dismissible fade show" role="alert">
+                {{ message }}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+        {% endfor %}
+    {% endif %}
+
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card mb-0">
+                <div class="card-header py-2">
+                    <form action="#">
+                        <div class="row">
+                            <div class="col-12 btn-group">
+                                <button class="btn btn-sm btn-outline-success" type="button" id="addMatchBtn">
+                                    Добавить
+                                </button>
+                                <button class="btn btn-sm btn-outline-primary" type="button" id="">
+                                    Календарь
+                                </button>
+                                <button class="btn btn-sm btn-outline-primary clear-collapses active" type="button" id="">
+                                    Матчи
+                                </button>
+                                <button class="btn btn-sm btn-outline-primary toggle-collapse" type="button" id="" data-toggle="collapse" data-target="#collapse-protocol" aria-expanded="false" aria-controls="collapseExample">
+                                    Протокол
+                                </button>
+                                <button class="btn btn-sm btn-outline-primary toggle-collapse" type="button" id="" data-toggle="collapse" data-target="#collapse-scheme" aria-expanded="false" aria-controls="collapseExample">
+                                    Схемы
+                                </button>
+                                <button class="btn btn-sm btn-outline-primary toggle-collapse" type="button" id="" data-toggle="collapse" data-target="#collapse-statistics" aria-expanded="false" aria-controls="collapseExample">
+                                    Статистика
+                                </button>
+                                <button class="btn btn-sm btn-outline-primary toggle-collapse" type="button" id="" data-toggle="collapse" data-target="#collapse-analytics" aria-expanded="false" aria-controls="collapseExample">
+                                    Аналитика
+                                </button>
+                                <button class="btn btn-sm btn-outline-primary toggle-collapse" type="button" id="" data-toggle="collapse" data-target="#collapse-notes" aria-expanded="false" aria-controls="collapseExample">
+                                    Записи
+                                </button>
+                                <button class="btn btn-sm btn-outline-primary toggle-collapse" type="button" id="" data-toggle="collapse" data-target="#collapse-video" aria-expanded="false" aria-controls="collapseExample">
+                                    Видео
+                                </button>
+                                <button class="btn btn-sm btn-outline-primary toggle-collapse" type="button" id="" data-toggle="collapse" data-target="#collapse-settings" aria-expanded="false" aria-controls="collapseExample">
+                                    Настройки
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="card-body py-0 scrollable-block">
+                    <div class="row">
+                        <div class="col">
+                            <div class="row">
+                                <div class="col px-0">
+                                    <div class="table-responsive">
+                                        <table id="matches" class="table table-sm table-striped table-bordered dataTable" style="width:100%">
+                                            <!-- <colgroup>
+                                                <col span="1" style="width: 5%;">
+                                                <col span="1" style="width: 10%;">
+                                                <col span="1" style="width: 5%;">
+                                                <col span="1" style="width: 5%;">
+                                                <col span="1" style="width: 5%;">
+                                                <col span="1" style="width: 5%;">
+                                                <col span="1" style="width: auto;">
+                                                <col span="1" style="width: 20%;">
+                                                <col span="1" style="width: 10%;">
+                                                <col span="1" style="width: 10%;">
+                                                <col span="1" style="width: 10%;">
+                                                <col span="1" style="width: 10%;">
+                                            </colgroup> -->
+                                            <thead>
+                                                <tr>
+                                                    <th class="text-center">#</th>
+                                                    <th class="text-center">Дата</th>
+                                                    <th class="text-center">Д.Н.</th>
+                                                    <th class="text-center" title="Время"><i class="fa fa-clock-o" aria-hidden="true"></i></th>
+                                                    <th class="text-center" title="Длительность"><i class="fa fa-clock-o" aria-hidden="true"></i></th>
+                                                    <th class="text-center" title="Результат (В.П.Н.)">В.П.Н.</th>
+                                                    <th class="text-center">Счет</th>
+                                                    <th class="text-center">Соперник</th>
+                                                    <th class="text-center">Тип матча</th>
+                                                    <th class="text-center">Формат матча</th>
+                                                    <th class="text-center">Турнир</th>
+                                                    <th class="text-center">Место</th>
+                                                    <th class="text-center">Видео</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {% for match in matches %}
+                                                <tr class="match-row" data-id="{{ match.event_id }}">
+                                                    <td class="text-center">{{ forloop.counter }}</td>
+                                                    <td class="text-center" data-order="{{ match.date_timestamp }}">{{ match.date }}</td>
+                                                    <td class="text-center">{{ match.date_day }}</td>
+                                                    <td class="text-center">{{ match.date_time }}</td>
+                                                    <td class="text-center">{{ match.duration }}</td>
+                                                    <td class="text-center">
+                                                        {% if match.result == 1 %}
+                                                            <span class="text-success" title="Выигрыш">В</span>
+                                                        {% elif match.result == 2 %}
+                                                            <span class="text-danger" title="Проигрыш">П</span>
+                                                        {% else %}
+                                                            <span class="text-secondary" title="Ничья">Н</span>
+                                                        {% endif %}
+                                                    </td>
+                                                    <td class="text-center">
+                                                        {{ match.goals }}:{{ match.o_goals }}
+                                                        {% if match.penalty > 0 or match.o_penalty > 0 %}
+                                                            ({{ match.penalty }}:{{ match.o_penalty }})
+                                                        {% endif %}
+                                                    </td>
+                                                    <td class="text-center">{{ match.opponent }}</td>
+                                                    <td class="text-center">
+                                                        {% if match.m_type == 1 %}
+                                                            <span title="Официальный">Офиц.</span>
+                                                        {% else %}
+                                                            <span title="Неофициальный">Неофиц.</span>
+                                                        {% endif %}
+                                                    </td>
+                                                    <td class="text-center">
+                                                        {% if match.m_format %}
+                                                            {{ match.m_format }}
+                                                        {% endif %}
+                                                    </td>
+                                                    <td class="text-center">
+                                                        {% if match.tournament %}
+                                                            {{ match.tournament }}
+                                                        {% endif %}
+                                                    </td>
+                                                    <td class="text-center">
+                                                        {% if match.place %}
+                                                            {{ match.place }}
+                                                        {% endif %}
+                                                    </td>
+                                                    <td class="text-center">
+                                                        {% if match.videos_count > 0 %}
+                                                            <button type="button" class="btn btn-sm btn-secondary video-player-match">
+                                                                Видео
+                                                            </button>
+                                                        {% else %}
+                                                            <button type="button" class="btn btn-sm btn-secondary video-player-match btn-empty">
+                                                                Видео
+                                                            </button>
+                                                        {% endif %}
+                                                    </td>
+                                                </tr>
+                                                {% endfor %}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="col-7 px-1 collapse collapse-block" id="collapse-protocol">
+                                    <div class="table-responsive">
+                                        <table id="protocol" class="table table-sm table-bordered dataTable" style="width:100%">
+                                            <thead>
+                                                <tr>
+                                                    <th class="team-type-order"></th>
+                                                    <th class="text-center">№</th>
+                                                    <th>ФИ</th>
+                                                    <th></th>
+                                                    <th class="text-center">с</th>
+                                                    <th class="text-center">по</th>
+                                                    <th class="text-center">гол.</th>
+                                                    <th class="text-center">пен.</th>
+                                                    <th class="text-center">пас.</th>
+                                                    <th class="text-center">ж.к.</th>
+                                                    <th class="text-center">к.к.</th>
+                                                    <th class="text-center">оц.</th>
+                                                    <th class="text-center">видео</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody></tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="col-7 px-1 collapse collapse-block" id="collapse-scheme">
+                                    Схемы
+                                </div>
+                                <div class="col-7 px-1 collapse collapse-block" id="collapse-statistics">
+                                    Статистика
+                                </div>
+                                <div class="col-7 px-1 collapse collapse-block" id="collapse-analytics">
+                                    Аналитика
+                                </div>
+                                <div class="col-7 px-1 collapse collapse-block" id="collapse-notes">
+                                    Записи
+                                </div>
+                                <div class="col-7 px-1 collapse collapse-block" id="collapse-video">
+                                    Видео
+                                </div>
+                                <div class="col-7 px-1 collapse collapse-block" id="collapse-settings">
+                                    Настройки
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-1 px-0" style="max-width:4%!important;">
+                            <div class="row mx-0"><div class="col-12 d-flex justify-content-center">
+                                <span style="height: 40px;">&nbsp;</span>
+                            </div></div>
+                            <div class="row mx-0"><div class="col-12 d-flex justify-content-center">
+                                <button class="btn btn-outline-danger" action="goToMatchCard" title="Просмотреть матч">
+                                    <i class="fa fa-search" aria-hidden="true"></i>
+                                </button>
+                            </div></div>
+                            <div class="row mx-0"><div class="col-12 d-flex justify-content-center">
+                                <button class="btn btn-outline-danger" action="editMatch" title="Редактировать матч">
+                                    <i class="fa fa-pencil" aria-hidden="true"></i>
+                                </button>
+                            </div></div>
+                            <div class="row mx-0"><div class="col-12 d-flex justify-content-center">
+                                <button class="btn btn-outline-danger" action="removeMatch" title="Удалить матч">
+                                    <i class="fa fa-trash" aria-hidden="true"></i>
+                                </button>
+                            </div></div>
+                            <div class="row mx-0"><div class="col-12 d-flex justify-content-center">
+                                <button class="btn btn-outline-warning" action="" title="Записи">
+                                    <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                                </button>
+                            </div></div>
+                            <div class="row mx-0"><div class="col-12 d-flex justify-content-center">
+                                <button class="btn btn-outline-warning" action="" title="Видео-команда">
+                                    V1
+                                </button>
+                            </div></div>
+                            <div class="row mx-0"><div class="col-12 d-flex justify-content-center">
+                                <button class="btn btn-outline-warning" action="" title="Видео-игрок">
+                                    V2
+                                </button>
+                            </div></div>
+                            <div class="row mx-0"><div class="col-12 d-flex justify-content-center">
+                                <button class="btn btn-outline-warning" action="" title="---">
+                                    <i class="fa fa-eye" aria-hidden="true"></i>
+                                </button>
+                            </div></div>
+                            <div class="row mx-0"><div class="col-12 d-flex justify-content-center">
+                                <button class="btn btn-outline-success" action="" title="Настройки">
+                                    <i class="fa fa-cog" aria-hidden="true"></i>
+                                </button>
+                            </div></div>
+                            <div class="row mx-0"><div class="col-12 d-flex justify-content-center">
+                                <button class="btn btn-outline-success" action="" title="Печать">
+                                    <i class="fa fa-print" aria-hidden="true"></i>
+                                </button>
+                            </div></div>
+                            <div class="row mx-0"><div class="col-12 d-flex justify-content-center">
+                                <button class="btn btn-outline-success" action="" title="Поделиться">
+                                    <i class="fa fa-share-alt-square" aria-hidden="true"></i>
+                                </button>
+                            </div></div>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {% include 'matches/modules/match_edit_modal.html' %}
+    {% include 'matches/modules/match_video_modal.html' %}
+
+{% endblock %}
+{% block custom_scripts %}
+    <script src="{% static 'matches/js/modules/match_edit_modal.js' %}"></script>
+    <script src="{% static 'matches/js/modules/match_video_modal.js' %}"></script>
+    <script src="{% static 'matches/js/modules/match_protocol.js' %}"></script>
+    <script src="{% static 'matches/js/base_matches.js' %}"></script>
+{% endblock %}
